@@ -2,12 +2,13 @@ import sys
 import os.path
 from numpy import logical_and
 #print sys.path
-sys.path.append("/home/kumaran/git/OneDep")
-from pdbx.reader.PdbxReader import PdbxReader
-from string import atof,atoi
+sys.path.append("/home/kumaran/git/py-mmcif")
+from mmcif.io.PdbxReader import PdbxReader
 from math import sqrt,acos
 import numpy
 import pynmrstar
+from monkeypatch import patch_parser
+patch_parser(pynmrstar)
 import logging
 import ntpath
 import operator
@@ -121,7 +122,7 @@ class ValidateRestraints(object):
         ifh.close()
         c0 = self.cifData[0]
         atom_site = c0.getObj('atom_site')
-        self.maxModels = atoi(atom_site.getValue('pdbx_PDB_model_num',-1))
+        self.maxModels = int(atom_site.getValue('pdbx_PDB_model_num',-1))
         if self.maxModels == 1:
             self.logger.warn('Coordinate file has only one model')
         elif self.maxModels == 0:
@@ -189,7 +190,7 @@ class ValidateRestraints(object):
         atom_site = c0.getObj('atom_site')
         colnames = atom_site.getAttributeList()
         modelid = colnames.index('pdbx_PDB_model_num')
-        self.maxModels = atoi(atom_site.getValue('pdbx_PDB_model_num',-1))
+        self.maxModels = int(atom_site.getValue('pdbx_PDB_model_num',-1))
         xid = colnames.index('Cartn_x')
         yid = colnames.index('Cartn_y')
         zid = colnames.index('Cartn_z')
@@ -200,8 +201,8 @@ class ValidateRestraints(object):
         seqid = colnames.index('label_seq_id')
         co = {}
         for dat in atom_site.getRowList():
-            if atoi(dat[modelid]) == modelID:
-                co[(dat[seqid],dat[asymid],dat[compid],dat[atomid])] = numpy.array([atof(dat[xid]),atof(dat[yid]),atof(dat[zid])])
+            if int(dat[modelid]) == modelID:
+                co[(dat[seqid],dat[asymid],dat[compid],dat[atomid])] = numpy.array([float(dat[xid]),float(dat[yid]),float(dat[zid])])
             
         return co
     
@@ -266,11 +267,11 @@ class ValidateRestraints(object):
                 if int(i[rest_id]) not in self.dist_rest[-1].keys(): # each rest_id may have multiple rows, because of ambiguity codes and NEF atom nomeclature ; so it will be a list
                     self.dist_rest[-1][int(i[rest_id])]=[]
                 try:
-                    lbv = atof(i[lb])
+                    lbv = float(i[lb])
                 except ValueError:
                     lbv = -999
                 try:
-                    ubv = atof(i[ub])
+                    ubv = float(i[ub])
                 except ValueError:
                     ubv = 999
                 if lbv == -999 and ubv == 999:
@@ -1008,11 +1009,11 @@ class ValidateRestraints(object):
             ub = dl.get_tag_names().index("_Torsion_angle_constraint.Angle_upper_bound_val")
             for i in dl:
                 try:
-                    lbv = atof(i[lb])
+                    lbv = float(i[lb])
                 except ValueError:
                     lbv = -999
                 try:
-                    ubv = atof(i[ub])
+                    ubv = float(i[ub])
                 except ValueError:
                     ubv = -999
                 self.ang_rest[-1][int(i[restid])]=[i[rest_name],(i[seqid1],i[entityid1],i[compid1],i[atomid1]),(i[seqid2],i[entityid2],i[compid2],i[atomid2]),(i[seqid3],i[entityid3],i[compid3],i[atomid3]),(i[seqid4],i[entityid4],i[compid4],i[atomid4]),(lbv,ubv)]
@@ -1096,14 +1097,9 @@ class ValidateRestraints(object):
                 
 
 if __name__=="__main__":
-#     pdbid=sys.argv[1]
-   # pdbid = '1nk2_test'
-    #p = ValidateRestraints('./unit_tests/data/{}.cif'.format(pdbid),'./unit_tests/data/{}.str'.format(pdbid))
-#    p.validate()
-    f=open('./unit_test/validation/data/idlist.txt','r').read().split("\n")
-    for pdbid in f:
-        print pdbid
-        p = ValidateRestraints('./unit_test/validation/data/{}.cif'.format(pdbid),'./unit_test/validation/data/{}.str'.format(pdbid))
+    p = ValidateRestraints('pdb_examples/6hvb.cif','pdb_examples/6hvb_linked.str')
+    #p = ValidateRestraints('nef_examples/2l9r.cif', 'nef_examples/2l9r.str')
+
         
     
     
