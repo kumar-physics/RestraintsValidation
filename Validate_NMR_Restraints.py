@@ -26,9 +26,9 @@ class ValidateRestraints:
     def __init__(self, cif_file, star_file):
         pdb = self.get_coordinates(cif_file)
         distance, angle = self.get_restraints(star_file)
-        self.validate_distace_restraints(pdb, distance)
-        #self.validate_angle_restraints(pdb, angle)
-
+        dist_vilo = self.validate_distace_restraints(pdb, distance)
+        ang_vilo = self.validate_angle_restraints(pdb, angle)
+        self.dist_violoation_statistics(dist_vilo)
     @staticmethod
     def get_coordinates(cif_file):
         """
@@ -299,13 +299,10 @@ class ValidateRestraints:
                         err = abs(ed - lb)
                     else:
                         err = abs(ed - ub)
-                    modl[i] = (lb, ub, ed, err,n[4])
+                    modl[i] = (n[4], lb, ub, ed, err)
                 viol[m] = modl
             violations[k] = viol
-        for k in violations.keys():
-            for m in violations[k].keys():
-                for n in violations[k][m].keys():
-                    print(k, m, n, violations[k][m][n])
+        return violations
 
     def validate_angle_restraints(self, coordinates, restraints):
         violations = {}
@@ -329,11 +326,16 @@ class ValidateRestraints:
                     modl[i] = (n[4],lb, ub, ed)
                 viol[m] = modl
             violations[k] = viol
-        for k in violations.keys():
-            for m in violations[k].keys():
-                for n in violations[k][m].keys():
-                    print(k, m, n, violations[k][m][n])
-
+        return violations
+    def dist_violoation_statistics(self,dist_viol):
+        types = []
+        for k in dist_viol.keys():
+            for r in dist_viol[k].keys():
+                types.append(dist_viol[k][r][1][0])
+                if dist_viol[k][r][1][-1]>0:
+                    print (dist_viol[k][r][1])
+        types_stat = {i:types.count(i) for i in set(types)}
+        print (types_stat,len(types))
 
 if __name__ == "__main__":
     p = ValidateRestraints('nef_examples/2l9r.cif', 'nef_examples/2l9r.str')
