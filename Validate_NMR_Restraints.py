@@ -26,8 +26,8 @@ class ValidateRestraints:
     def __init__(self, cif_file, star_file):
         pdb = self.get_coordinates(cif_file)
         distance, angle = self.get_restraints(star_file)
-        #self.validate_distace_restraints(pdb, distance)
-        self.validate_angle_restraints(pdb, angle)
+        self.validate_distace_restraints(pdb, distance)
+        #self.validate_angle_restraints(pdb, angle)
 
     @staticmethod
     def get_coordinates(cif_file):
@@ -122,6 +122,16 @@ class ValidateRestraints:
                         r_dict[rest[rest_id]] = []
                     atom1 = (rest[seq_id_1], rest[entity_id_1], rest[comp_id_1], rest[atom_id_1])
                     atom2 = (rest[seq_id_2], rest[entity_id_2], rest[comp_id_2], rest[atom_id_2])
+                    if atom1[1]!=atom2[1]:
+                        cat = 'long'
+                    elif abs(int(atom1[0])-int(atom2[0]))==0:
+                        cat = 'intraresidue'
+                    elif abs(int(atom1[0])-int(atom2[0]))==1:
+                        cat = 'sequential'
+                    elif 1 < abs(int(atom1[0])-int(atom2[0])) < 5:
+                        cat = 'medium'
+                    elif abs(int(atom1[0])-int(atom2[0]))>=5:
+                        cat = 'long'
                     try:
                         lb = float(rest[lb_id])
                     except ValueError:
@@ -134,7 +144,7 @@ class ValidateRestraints:
                         print("Error: Distance restraint value not readable for restraint id {}; "
                               "for atoms {},{}".format(rest[rest_id], atom1, atom2))
                     else:
-                        r_dict[rest[rest_id]].append([atom1, atom2, lb, ub])
+                        r_dict[rest[rest_id]].append([atom1, atom2, lb, ub, cat])
                 if lp_flg:
                     dist_dict['distance_restraints'] = r_dict
                 else:
@@ -289,7 +299,7 @@ class ValidateRestraints:
                         err = abs(ed - lb)
                     else:
                         err = abs(ed - ub)
-                    modl[i] = (lb, ub, ed, err)
+                    modl[i] = (lb, ub, ed, err,n[4])
                 viol[m] = modl
             violations[k] = viol
         for k in violations.keys():
