@@ -3,7 +3,7 @@ import os.path
 from numpy import logical_and
 
 # print sys.path
-sys.path.append("/home/kumaran/git/py-mmcif")
+sys.path.append("~/git/py-mmcif")
 from mmcif.io.PdbxReader import PdbxReader
 from math import sqrt, acos
 import numpy
@@ -26,8 +26,10 @@ class ValidateRestraints:
     def __init__(self, cif_file, star_file):
         pdb = self.get_coordinates(cif_file)
         distance, angle = self.get_restraints(star_file)
+        print (pdb)
+        print (distance)
         dist_vilo = self.validate_distace_restraints(pdb, distance)
-        ang_vilo = self.validate_angle_restraints(pdb, angle)
+        #ang_vilo = self.validate_angle_restraints(pdb, angle)
         self.dist_violoation_statistics(dist_vilo)
     @staticmethod
     def get_coordinates(cif_file):
@@ -95,6 +97,7 @@ class ValidateRestraints:
         except IOError:
             print("Error file not found")
             dat_flg = 0
+        chain_dict = {'1':'A','2':'B','3':'C','4':'D'}
         if dat_flg:
             dist_dict = {}
             for sf in dist_sf:
@@ -105,13 +108,13 @@ class ValidateRestraints:
                 col_names = dat.get_tag_names()
                 rest_id = col_names.index('_Gen_dist_constraint.ID')
                 seq_id_1 = col_names.index('_Gen_dist_constraint.Comp_index_ID_1')
-                entity_id_1 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_1')
-                # entity_id_1 = col_names.index('Gen_dist_constraint.Entity_assembly_ID_1')
+                #entity_id_1 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_1')
+                entity_id_1 = col_names.index('_Gen_dist_constraint.Entity_assembly_ID_1')
                 comp_id_1 = col_names.index('_Gen_dist_constraint.Comp_ID_1')
                 atom_id_1 = col_names.index('_Gen_dist_constraint.Atom_ID_1')
                 seq_id_2 = col_names.index('_Gen_dist_constraint.Comp_index_ID_2')
-                entity_id_2 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_2')
-                # entity_id_2 = col_names.index('Gen_dist_constraint.Entity_assembly_ID_2')
+                #entity_id_2 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_2')
+                entity_id_2 = col_names.index('_Gen_dist_constraint.Entity_assembly_ID_2')
                 comp_id_2 = col_names.index('_Gen_dist_constraint.Comp_ID_2')
                 atom_id_2 = col_names.index('_Gen_dist_constraint.Atom_ID_2')
                 lb_id = col_names.index('_Gen_dist_constraint.Distance_lower_bound_val')
@@ -120,8 +123,17 @@ class ValidateRestraints:
                 for rest in dat:
                     if rest[rest_id] not in r_dict.keys():
                         r_dict[rest[rest_id]] = []
-                    atom1 = (rest[seq_id_1], rest[entity_id_1], rest[comp_id_1], rest[atom_id_1])
-                    atom2 = (rest[seq_id_2], rest[entity_id_2], rest[comp_id_2], rest[atom_id_2])
+                    if rest[entity_id_1] in chain_dict.keys():
+                        eid1 = chain_dict[rest[entity_id_1]]
+                    else:
+                        eid1 = rest[entity_id_1]
+                    if rest[entity_id_2] in chain_dict.keys():
+                        eid2 = chain_dict[rest[entity_id_2]]
+                    else:
+                        eid2 = rest[entity_id_2]
+
+                    atom1 = (rest[seq_id_1], eid1, rest[comp_id_1], rest[atom_id_1])
+                    atom2 = (rest[seq_id_2], eid2, rest[comp_id_2], rest[atom_id_2])
                     if atom1[1]!=atom2[1]:
                         cat = 'long'
                     elif abs(int(atom1[0])-int(atom2[0]))==0:
@@ -329,13 +341,38 @@ class ValidateRestraints:
         return violations
     def dist_violoation_statistics(self,dist_viol):
         types = []
+        restraint_types={}
         for k in dist_viol.keys():
             for r in dist_viol[k].keys():
                 types.append(dist_viol[k][r][1][0])
-                if dist_viol[k][r][1][-1]>0:
-                    print (dist_viol[k][r][1])
         types_stat = {i:types.count(i) for i in set(types)}
-        print (types_stat,len(types))
+        types_stat['total']= len(types)
+        print (types_stat)
+        viol_stat = {}
+        for k in dist_viol.keys():
+            v={}
+            for r in dist_viol[k].keys():
+                c=0
+                e=[]
+                for m in dist_viol[k][r]:
+                    e.append(dist_viol[k][r][m][-1])
+                    if dist_viol[k][r][m][-1]>0.0:
+                        c+=1
+                v[r]=[dist_viol[k][r][1][0],c,numpy.mean(e),max(e)]
+            viol_stat[k]=v
+        for k in viol_stat.keys():
+            for r in viol_stat[k].keys():
+                print (k,r,viol_stat[k][r])
+        viol_stat2={}
+        for k in dist_viol.keys():
+            for i in dist_viol[k][list(dist_viol[k].keys())[0]].keys():
+                c=0
+                for r in dist_viol[k].keys():
+                    if dist_viol[k][r][i][-1]>0.0:
+                        c+=1
+                print (k,i,r,c)
+
+
 
 if __name__ == "__main__":
-    p = ValidateRestraints('nef_examples/2l9r.cif', 'nef_examples/2l9r.str')
+    p = ValidateRestraints('pdb_examples/1ajt.cif', 'pdb_examples/1ajt_linked.str')
