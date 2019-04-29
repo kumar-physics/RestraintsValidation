@@ -5,6 +5,7 @@ from numpy import logical_and
 # print sys.path
 sys.path.append("~/git/py-mmcif")
 from mmcif.io.PdbxReader import PdbxReader
+from NEFTranslator import NEFTranslator
 from math import sqrt, acos
 import numpy
 import pynmrstar
@@ -25,6 +26,17 @@ class ValidateRestraints:
 
     def __init__(self, cif_file, star_file):
         chain_dict = self.get_chain_map(star_file)
+        nt = NEFTranslator.NEFTranslator()
+        print (nt.validate_file(star_file,'R'))
+        sd = pynmrstar.Entry.from_file(star_file)
+        psudo_atoms = nt.validate_atom(sd,lp_category='_Gen_dist_constraint',seq_id='Comp_index_ID_1',res_id='Comp_ID_1',atom_id='Atom_ID_1')
+        for i in psudo_atoms:
+            res = i[1]
+            atm = i[2]
+            atm=atm.replace('M','H')
+            atm=atm.replace('Q','H')
+            atm=atm+'*'
+            print (i,nt.get_nmrstar_atom(res,atm))
         pdb = self.get_coordinates(cif_file)
         distance, angle = self.get_restraints(star_file,chain_dict)
         dist_vilo = self.validate_distace_restraints(pdb, distance)
@@ -406,5 +418,5 @@ class ValidateRestraints:
 
 
 if __name__ == "__main__":
-    p = ValidateRestraints('nef_examples/2mqq.cif', 'nef_examples/2mqq.str')
-    p = ValidateRestraints('pdb_examples/2mxs.cif', 'pdb_examples/2mxs_linked.str')
+   # p = ValidateRestraints('nef_examples/2mqq.cif', 'nef_examples/2mqq.str')
+    p = ValidateRestraints('pdb_examples/4ch1.cif', 'pdb_examples/4ch1_linked.str')
