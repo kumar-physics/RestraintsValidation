@@ -24,12 +24,11 @@ class ValidateRestraints:
     __version__ = "v0.8"
 
     def __init__(self, cif_file, star_file):
+        chain_dict = self.get_chain_map(star_file)
         pdb = self.get_coordinates(cif_file)
-        distance, angle = self.get_restraints(star_file)
-        print (pdb)
-        print (distance)
+        distance, angle = self.get_restraints(star_file,chain_dict)
         dist_vilo = self.validate_distace_restraints(pdb, distance)
-        #ang_vilo = self.validate_angle_restraints(pdb, angle)
+        ang_vilo = self.validate_angle_restraints(pdb, angle)
         self.dist_violoation_statistics(dist_vilo)
     @staticmethod
     def get_coordinates(cif_file):
@@ -68,7 +67,7 @@ class ValidateRestraints:
         return pdb_models
 
     @staticmethod
-    def get_restraints(star_file):
+    def get_restraints(star_file,chain_dict):
         lp_flg = 0
         dat_flg = 1
         try:
@@ -97,7 +96,6 @@ class ValidateRestraints:
         except IOError:
             print("Error file not found")
             dat_flg = 0
-        chain_dict = {'1':'A','2':'B','3':'C','4':'D'}
         if dat_flg:
             dist_dict = {}
             for sf in dist_sf:
@@ -108,12 +106,12 @@ class ValidateRestraints:
                 col_names = dat.get_tag_names()
                 rest_id = col_names.index('_Gen_dist_constraint.ID')
                 seq_id_1 = col_names.index('_Gen_dist_constraint.Comp_index_ID_1')
-                #entity_id_1 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_1')
+                asym_id_1 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_1')
                 entity_id_1 = col_names.index('_Gen_dist_constraint.Entity_assembly_ID_1')
                 comp_id_1 = col_names.index('_Gen_dist_constraint.Comp_ID_1')
                 atom_id_1 = col_names.index('_Gen_dist_constraint.Atom_ID_1')
                 seq_id_2 = col_names.index('_Gen_dist_constraint.Comp_index_ID_2')
-                #entity_id_2 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_2')
+                asym_id_2 = col_names.index('_Gen_dist_constraint.Auth_asym_ID_2')
                 entity_id_2 = col_names.index('_Gen_dist_constraint.Entity_assembly_ID_2')
                 comp_id_2 = col_names.index('_Gen_dist_constraint.Comp_ID_2')
                 atom_id_2 = col_names.index('_Gen_dist_constraint.Atom_ID_2')
@@ -123,14 +121,14 @@ class ValidateRestraints:
                 for rest in dat:
                     if rest[rest_id] not in r_dict.keys():
                         r_dict[rest[rest_id]] = []
-                    if rest[entity_id_1] in chain_dict.keys():
+                    if rest[asym_id_1] =='.':
                         eid1 = chain_dict[rest[entity_id_1]]
                     else:
-                        eid1 = rest[entity_id_1]
-                    if rest[entity_id_2] in chain_dict.keys():
+                        eid1 = rest[asym_id_1]
+                    if rest[asym_id_2]  =='.':
                         eid2 = chain_dict[rest[entity_id_2]]
                     else:
-                        eid2 = rest[entity_id_2]
+                        eid2 = rest[asym_id_2]
 
                     atom1 = (rest[seq_id_1], eid1, rest[comp_id_1], rest[atom_id_1])
                     atom2 = (rest[seq_id_2], eid2, rest[comp_id_2], rest[atom_id_2])
@@ -202,23 +200,23 @@ class ValidateRestraints:
                 rest_id = col_names.index('_Torsion_angle_constraint.ID')
                 rest_name_id = col_names.index("_Torsion_angle_constraint.Torsion_angle_name")
                 seq_id_1 = col_names.index('_Torsion_angle_constraint.Comp_index_ID_1')
-                entity_id_1 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_1')
-                # entity_id_1 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_1')
+                asym_id_1 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_1')
+                entity_id_1 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_1')
                 comp_id_1 = col_names.index('_Torsion_angle_constraint.Comp_ID_1')
                 atom_id_1 = col_names.index('_Torsion_angle_constraint.Atom_ID_1')
                 seq_id_2 = col_names.index('_Torsion_angle_constraint.Comp_index_ID_2')
-                entity_id_2 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_2')
-                # entity_id_2 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_2')
+                asym_id_2 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_2')
+                entity_id_2 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_2')
                 comp_id_2 = col_names.index('_Torsion_angle_constraint.Comp_ID_2')
                 atom_id_2 = col_names.index('_Torsion_angle_constraint.Atom_ID_2')
                 seq_id_3 = col_names.index('_Torsion_angle_constraint.Comp_index_ID_3')
-                entity_id_3 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_3')
-                # entity_id_3 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_3')
+                asym_id_3 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_3')
+                entity_id_3 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_3')
                 comp_id_3 = col_names.index('_Torsion_angle_constraint.Comp_ID_3')
                 atom_id_3 = col_names.index('_Torsion_angle_constraint.Atom_ID_3')
                 seq_id_4 = col_names.index('_Torsion_angle_constraint.Comp_index_ID_4')
-                entity_id_4 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_4')
-                # entity_id_4 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_4')
+                asym_id_4 = col_names.index('_Torsion_angle_constraint.Auth_asym_ID_4')
+                entity_id_4 = col_names.index('_Torsion_angle_constraint.Entity_assembly_ID_4')
                 comp_id_4 = col_names.index('_Torsion_angle_constraint.Comp_ID_4')
                 atom_id_4 = col_names.index('_Torsion_angle_constraint.Atom_ID_4')
                 lb_id = col_names.index('_Torsion_angle_constraint.Angle_lower_bound_val')
@@ -227,10 +225,28 @@ class ValidateRestraints:
                 for rest in dat:
                     if rest[rest_id] not in r_dict.keys():
                         r_dict[rest[rest_id]] = []
-                    atom1 = (rest[seq_id_1], rest[entity_id_1], rest[comp_id_1], rest[atom_id_1])
-                    atom2 = (rest[seq_id_2], rest[entity_id_2], rest[comp_id_2], rest[atom_id_2])
-                    atom3 = (rest[seq_id_3], rest[entity_id_3], rest[comp_id_3], rest[atom_id_3])
-                    atom4 = (rest[seq_id_4], rest[entity_id_4], rest[comp_id_4], rest[atom_id_4])
+
+                    if rest[asym_id_1]  =='.':
+                        eid1 = chain_dict[rest[entity_id_1]]
+                    else:
+                        eid1 = rest[asym_id_1]
+                    if rest[asym_id_2]  =='.':
+                        eid2 = chain_dict[rest[entity_id_2]]
+                    else:
+                        eid2 = rest[asym_id_2]
+                    if rest[asym_id_3]  =='.':
+                        eid3 = chain_dict[rest[entity_id_3]]
+                    else:
+                        eid3 = rest[asym_id_3]
+                    if rest[asym_id_4]  =='.':
+                        eid4 = chain_dict[rest[entity_id_4]]
+                    else:
+                        eid4 = rest[asym_id_4]
+
+                    atom1 = (rest[seq_id_1], eid1, rest[comp_id_1], rest[atom_id_1])
+                    atom2 = (rest[seq_id_2], eid2, rest[comp_id_2], rest[atom_id_2])
+                    atom3 = (rest[seq_id_3], eid3, rest[comp_id_3], rest[atom_id_3])
+                    atom4 = (rest[seq_id_4], eid4, rest[comp_id_4], rest[atom_id_4])
                     rest_name = rest[rest_name_id]
                     try:
                         lb = float(rest[lb_id])
@@ -282,6 +298,22 @@ class ValidateRestraints:
         if numpy.dot(pv13, numpy.cross(pv24, bv32)) < 0:
             angle = -angle
         return round(numpy.degrees(angle), 4)
+
+    @staticmethod
+    def get_chain_map(star_file):
+        ent = pynmrstar.Entry.from_file(star_file)
+        try:
+            entity_assembly = ent.get_loops_by_category('_Entity_assembly')[0]
+            col_names = entity_assembly.get_tag_names()
+            id_index = col_names.index('_Entity_assembly.ID')
+            asym_index = col_names.index('_Entity_assembly.Asym_ID')
+            chain_map = {}
+            for row in entity_assembly:
+                chain_map[row[id_index]]=row[asym_index]
+        except IndexError:
+            print ("Entity_assembly loop no found, No chain mapping created")
+            chain_map = {}
+        return chain_map
 
     @staticmethod
     def r6sum(dist_list):
@@ -347,7 +379,6 @@ class ValidateRestraints:
                 types.append(dist_viol[k][r][1][0])
         types_stat = {i:types.count(i) for i in set(types)}
         types_stat['total']= len(types)
-        print (types_stat)
         viol_stat = {}
         for k in dist_viol.keys():
             v={}
@@ -375,4 +406,5 @@ class ValidateRestraints:
 
 
 if __name__ == "__main__":
-    p = ValidateRestraints('pdb_examples/1ajt.cif', 'pdb_examples/1ajt_linked.str')
+    p = ValidateRestraints('nef_examples/2mqq.cif', 'nef_examples/2mqq.str')
+    p = ValidateRestraints('pdb_examples/2mxs.cif', 'pdb_examples/2mxs_linked.str')
