@@ -2,8 +2,8 @@
 
 import json
 import pynmrstar
-from monkeypatch import patch_parser
-patch_parser(pynmrstar)
+# from monkeypatch import patch_parser
+# patch_parser(pynmrstar)
 import re
 
 class FixNomenclature(object):
@@ -129,10 +129,10 @@ class FixNomenclature(object):
         star_data = pynmrstar.Entry.from_file(star_file)
         rest_loops = star_data.get_loops_by_category('_Gen_dist_constraint')
         index = 1
+
         for dat in rest_loops:
             #dat.add_tag('_Gen_dist_constraint.Index_ID')
             col_names = dat.get_tag_names()
-            print (col_names)
             rest_id = col_names.index('_Gen_dist_constraint.ID')
             logic_id = col_names.index('_Gen_dist_constraint.Member_logic_code')
             seq_id_1 = col_names.index('_Gen_dist_constraint.Comp_index_ID_1')
@@ -152,7 +152,9 @@ class FixNomenclature(object):
             lb_id = col_names.index('_Gen_dist_constraint.Distance_lower_bound_val')
             ub_id = col_names.index('_Gen_dist_constraint.Distance_upper_bound_val')
             r_dict = {}
-            for rest in dat:
+            dat2 = []
+            for rest2 in dat:
+                rest = rest2[:]
                 rid = rest[rest_id]
                 res1 = rest[comp_id_1]
                 atm1 = rest[atom_id_1]
@@ -176,35 +178,42 @@ class FixNomenclature(object):
                 else:
                     pass
                 (na2,new_atms2,ac2) = self.get_nmrstar_atom(res2, atm2)
+
+                rest[asym_id_1] = self.chains[rest[entity_id_1]]
+                rest[asym_id_2] = self.chains[rest[entity_id_2]]
                 if len(new_atms1)==0 or len(new_atms2)==0:
-                    print (rest)
-                if len(new_atms1)>1 or len(new_atms2)>1:
-                    del dat.data[dat.data.index(rest)]
+                    print ("Here",rest)
+                if len(new_atms1) > 1 or len(new_atms2) > 1:
                     for a1 in new_atms1:
                         for a2 in new_atms2:
                             rest[rest_id] = rid
                             rest[atom_id_1] = a1
                             rest[atom_id_2] = a2
                             rest[logic_id] = 'OR'
-                            rest[asym_id_1] = self.chains[rest[entity_id_1]]
-                            rest[asym_id_2] = self.chains[rest[entity_id_2]]
-                            dat.data.append(rest[:])
+                            dat2.append(rest[:])
                 else:
-                    rest[asym_id_1] = self.chains[rest[entity_id_1]]
-                    rest[asym_id_2] = self.chains[rest[entity_id_2]]
-                    print (rest)
+                    dat2.append(rest[:])
+            dat.clear_data()
+            # print (dat)
+            # print (len(dat2),len(dat2[0]))
+            for item in dat2:
+                if len(item)!=len(dat.tags):
+                    print(len(item), len(dat.tags))
+            dat.data = dat2
             dat: pynmrstar.Loop
             dat.sort_rows(['_Gen_dist_constraint.ID'])
             dat.add_tag('Index_ID', update_data=True)
             dat.renumber_rows('Index_ID')
             dat.sort_tags()
-            with open('test_out.str', 'w') as wstarfile:
-                wstarfile.write(str(star_data))
+        with open('test_out.str', 'w') as wstarfile:
+            wstarfile.write(str(star_data))
 
 
 
 
 if __name__ == "__main__":
-    p = FixNomenclature('pdb_examples/4ch1_linked.str')
-    print (p.atomDict)
-    print (p.chains)
+    entry_id = '4ch1'
+    url = 'http://www.bmrb.wisc.edu/ftp/pub/bmrb/nmr_pdb_integrated_data/coordinates_restraints_chemshifts/all/' \
+          'nmr-star/{}/{}_linked.str'.format(entry_id.lower(), entry_id.lower())
+    p = FixNomenclature(url)
+

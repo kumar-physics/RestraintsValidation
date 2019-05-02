@@ -14430,3 +14430,326 @@ save_nef_distance_restraint_list_distance_constraint_list
      14394   4947   .   .    1   212   GLN   HG3    2   5     A     H5''   .   .   .   .   .   6      1   A   583   GLN   HGY    B   5     A     H5''    
    stop_
 save_
+
+save_nef_distance_restraint_list_hBond_constraint_list
+   _Gen_dist_constraint_list.Sf_category      general_distance_constraints
+   _Gen_dist_constraint_list.Sf_framecode     nef_distance_restraint_list_hBond_constraint_list
+   _Gen_dist_constraint_list.Constraint_type  hbond
+   _Gen_dist_constraint_list.Potential_type   unknown
+
+   loop_
+      _Gen_dist_constraint.Index_ID
+      _Gen_dist_constraint.ID
+      _Gen_dist_constraint.Combination_ID
+      _Gen_dist_constraint.Member_logic_code
+      _Gen_dist_constraint.Entity_assembly_ID_1
+      _Gen_dist_constraint.Comp_index_ID_1
+      _Gen_dist_constraint.Comp_ID_1
+      _Gen_dist_constraint.Atom_ID_1
+      _Gen_dist_constraint.Entity_assembly_ID_2
+      _Gen_dist_constraint.Comp_index_ID_2
+      _Gen_dist_constraint.Comp_ID_2
+      _Gen_dist_constraint.Atom_ID_2
+      _Gen_dist_constraint.Target_val
+      _Gen_dist_constraint.Target_val_uncertainty
+      _Gen_dist_constraint.Lower_linear_limit
+      _Gen_dist_constraint.Upper_linear_limit
+      _Gen_dist_constraint.Distance_lower_bound_val
+      _Gen_dist_constraint.Distance_upper_bound_val
+      _Gen_dist_constraint.Weight
+      _Gen_dist_constraint.Auth_asym_ID_1
+      _Gen_dist_constraint.Auth_seq_ID_1
+      _Gen_dist_constraint.Auth_comp_ID_1
+      _Gen_dist_constraint.Auth_atom_ID_1
+      _Gen_dist_constraint.Auth_asym_ID_2
+      _Gen_dist_constraint.Auth_seq_ID_2
+      _Gen_dist_constraint.Auth_comp_ID_2
+      _Gen_dist_constraint.Auth_atom_ID_2
+
+     1     1     .   .   1   11    MET   H   1   51    GLU   O   .   .   .   .   .   2.4   1   A   382   MET   H   A   422   GLU   O    
+     2     2     .   .   1   12    VAL   H   1   79    VAL   O   .   .   .   .   .   2.4   1   A   383   VAL   H   A   450   VAL   O    
+     3     3     .   .   1   13    TYR   H   1   49    MET   O   .   .   .   .   .   2.4   1   A   384   TYR   H   A   420   MET   O    
+     4     4     .   .   1   14    GLY   H   1   77    VAL   O   .   .   .   .   .   2.4   1   A   385   GLY   H   A   448   VAL   O    
+     5     5     .   .   1   38    VAL   H   1   52    MET   O   .   .   .   .   .   2.4   1   A   409   VAL   H   A   423   MET   O    
+     6     6     .   .   1   39    LYS   H   1   102   ASP   O   .   .   .   .   .   2.4   1   A   410   LYS   H   A   473   ASP   O    
+     7     7     .   .   1   40    PHE   H   1   50    VAL   O   .   .   .   .   .   2.4   1   A   411   PHE   H   A   421   VAL   O    
+     8     8     .   .   1   41    MET   H   1   100   TYR   O   .   .   .   .   .   2.4   1   A   412   MET   H   A   471   TYR   O    
+     9     9     .   .   1   13    TYR   O   1   49    MET   H   .   .   .   .   .   2.4   1   A   384   TYR   O   A   420   MET   H    
+     10    10    .   .   1   40    PHE   O   1   50    VAL   H   .   .   .   .   .   2.4   1   A   411   PHE   O   A   421   VAL   H    
+     11    11    .   .   1   11    MET   O   1   51    GLU   H   .   .   .   .   .   2.4   1   A   382   MET   O   A   422   GLU   H    
+     12    12    .   .   1   38    VAL   O   1   52    MET   H   .   .   .   .   .   2.4   1   A   409   VAL   O   A   423   MET   H    
+     13    13    .   .   1   9     VAL   O   1   53    ALA   H   .   .   .   .   .   2.4   1   A   380   VAL   O   A   424   ALA   H    
+     14    14    .   .   1   71    PHE   O   1   74    LYS   H   .   .   .   .   .   2.4   1   A   442   PHE   O   A   445   LYS   H    
+     15    15    .   .   1   69    PHE   O   1   76    ASN   H   .   .   .   .   .   2.4   1   A   440   PHE   O   A   447   ASN   H    
+     16    16    .   .   1   67    ASN   O   1   78    CYS   H   .   .   .   .   .   2.4   1   A   438   ASN   O   A   449   CYS   H    
+     17    17    .   .   1   14    GLY   O   1   77    VAL   H   .   .   .   .   .   2.4   1   A   385   GLY   O   A   448   VAL   H    
+     18    18    .   .   1   12    VAL   O   1   79    VAL   H   .   .   .   .   .   2.4   1   A   383   VAL   O   A   450   VAL   H    
+     19    19    .   .   1   39    LYS   O   1   102   ASP   H   .   .   .   .   .   2.4   1   A   410   LYS   O   A   473   ASP   H    
+     20    20    .   .   1   37    LYS   O   1   104   SER   H   .   .   .   .   .   2.4   1   A   408   LYS   O   A   475   SER   H    
+     21    21    .   .   1   22    CYS   O   1   25    VAL   H   .   .   .   .   .   2.4   1   A   393   CYS   O   A   396   VAL   H    
+     22    22    .   .   1   22    CYS   O   1   26    PHE   H   .   .   .   .   .   2.4   1   A   393   CYS   O   A   397   PHE   H    
+     23    23    .   .   1   23    ASP   O   1   27    ASN   H   .   .   .   .   .   2.4   1   A   394   ASP   O   A   398   ASN   H    
+     24    24    .   .   1   24    ARG   O   1   28    VAL   H   .   .   .   .   .   2.4   1   A   395   ARG   O   A   399   VAL   H    
+     25    25    .   .   1   25    VAL   O   1   29    PHE   H   .   .   .   .   .   2.4   1   A   396   VAL   O   A   400   PHE   H    
+     26    26    .   .   1   26    PHE   O   1   30    CYS   H   .   .   .   .   .   2.4   1   A   397   PHE   O   A   401   CYS   H    
+     27    27    .   .   1   27    ASN   O   1   31    LEU   H   .   .   .   .   .   2.4   1   A   398   ASN   O   A   402   LEU   H    
+     28    28    .   .   1   28    VAL   O   1   32    TYR   H   .   .   .   .   .   2.4   1   A   399   VAL   O   A   403   TYR   H    
+     29    29    .   .   1   54    ASP   O   1   58    VAL   H   .   .   .   .   .   2.4   1   A   425   ASP   O   A   429   VAL   H    
+     30    30    .   .   1   55    GLY   O   1   59    ASP   H   .   .   .   .   .   2.4   1   A   426   GLY   O   A   430   ASP   H    
+     31    31    .   .   1   56    TYR   O   1   60    ARG   H   .   .   .   .   .   2.4   1   A   427   TYR   O   A   431   ARG   H    
+     32    32    .   .   1   57    ALA   O   1   61    ALA   H   .   .   .   .   .   2.4   1   A   428   ALA   O   A   432   ALA   H    
+     33    33    .   .   1   58    VAL   O   1   62    ILE   H   .   .   .   .   .   2.4   1   A   429   VAL   O   A   433   ILE   H    
+     34    34    .   .   1   59    ASP   O   1   63    THR   H   .   .   .   .   .   2.4   1   A   430   ASP   O   A   434   THR   H    
+     35    35    .   .   1   60    ARG   O   1   64    HIS   H   .   .   .   .   .   2.4   1   A   431   ARG   O   A   435   HIS   H    
+     36    36    .   .   1   61    ALA   O   1   65    LEU   H   .   .   .   .   .   2.4   1   A   432   ALA   O   A   436   LEU   H    
+     37    37    .   .   1   62    ILE   O   1   66    ASN   H   .   .   .   .   .   2.4   1   A   433   ILE   O   A   437   ASN   H    
+     38    38    .   .   1   11    MET   N   1   51    GLU   O   .   .   .   .   .   3.4   1   A   382   MET   N   A   422   GLU   O    
+     39    39    .   .   1   12    VAL   N   1   79    VAL   O   .   .   .   .   .   3.4   1   A   383   VAL   N   A   450   VAL   O    
+     40    40    .   .   1   13    TYR   N   1   49    MET   O   .   .   .   .   .   3.4   1   A   384   TYR   N   A   420   MET   O    
+     41    41    .   .   1   14    GLY   N   1   77    VAL   O   .   .   .   .   .   3.4   1   A   385   GLY   N   A   448   VAL   O    
+     42    42    .   .   1   38    VAL   N   1   52    MET   O   .   .   .   .   .   3.4   1   A   409   VAL   N   A   423   MET   O    
+     43    43    .   .   1   39    LYS   N   1   102   ASP   O   .   .   .   .   .   3.4   1   A   410   LYS   N   A   473   ASP   O    
+     44    44    .   .   1   40    PHE   N   1   50    VAL   O   .   .   .   .   .   3.4   1   A   411   PHE   N   A   421   VAL   O    
+     45    45    .   .   1   41    MET   N   1   100   TYR   O   .   .   .   .   .   3.4   1   A   412   MET   N   A   471   TYR   O    
+     46    46    .   .   1   13    TYR   O   1   49    MET   N   .   .   .   .   .   3.4   1   A   384   TYR   O   A   420   MET   N    
+     47    47    .   .   1   40    PHE   O   1   50    VAL   N   .   .   .   .   .   3.4   1   A   411   PHE   O   A   421   VAL   N    
+     48    48    .   .   1   11    MET   O   1   51    GLU   N   .   .   .   .   .   3.4   1   A   382   MET   O   A   422   GLU   N    
+     49    49    .   .   1   38    VAL   O   1   52    MET   N   .   .   .   .   .   3.4   1   A   409   VAL   O   A   423   MET   N    
+     50    50    .   .   1   9     VAL   O   1   53    ALA   N   .   .   .   .   .   3.4   1   A   380   VAL   O   A   424   ALA   N    
+     51    51    .   .   1   71    PHE   O   1   74    LYS   N   .   .   .   .   .   3.4   1   A   442   PHE   O   A   445   LYS   N    
+     52    52    .   .   1   69    PHE   O   1   76    ASN   N   .   .   .   .   .   3.4   1   A   440   PHE   O   A   447   ASN   N    
+     53    53    .   .   1   67    ASN   O   1   78    CYS   N   .   .   .   .   .   3.4   1   A   438   ASN   O   A   449   CYS   N    
+     54    54    .   .   1   14    GLY   O   1   77    VAL   N   .   .   .   .   .   3.4   1   A   385   GLY   O   A   448   VAL   N    
+     55    55    .   .   1   12    VAL   O   1   79    VAL   N   .   .   .   .   .   3.4   1   A   383   VAL   O   A   450   VAL   N    
+     56    56    .   .   1   39    LYS   O   1   102   ASP   N   .   .   .   .   .   3.4   1   A   410   LYS   O   A   473   ASP   N    
+     57    57    .   .   1   37    LYS   O   1   104   SER   N   .   .   .   .   .   3.4   1   A   408   LYS   O   A   475   SER   N    
+     58    58    .   .   1   22    CYS   O   1   25    VAL   N   .   .   .   .   .   3.4   1   A   393   CYS   O   A   396   VAL   N    
+     59    59    .   .   1   22    CYS   O   1   26    PHE   N   .   .   .   .   .   3.4   1   A   393   CYS   O   A   397   PHE   N    
+     60    60    .   .   1   23    ASP   O   1   27    ASN   N   .   .   .   .   .   3.4   1   A   394   ASP   O   A   398   ASN   N    
+     61    61    .   .   1   24    ARG   O   1   28    VAL   N   .   .   .   .   .   3.4   1   A   395   ARG   O   A   399   VAL   N    
+     62    62    .   .   1   25    VAL   O   1   29    PHE   N   .   .   .   .   .   3.4   1   A   396   VAL   O   A   400   PHE   N    
+     63    63    .   .   1   26    PHE   O   1   30    CYS   N   .   .   .   .   .   3.4   1   A   397   PHE   O   A   401   CYS   N    
+     64    64    .   .   1   27    ASN   O   1   31    LEU   N   .   .   .   .   .   3.4   1   A   398   ASN   O   A   402   LEU   N    
+     65    65    .   .   1   28    VAL   O   1   32    TYR   N   .   .   .   .   .   3.4   1   A   399   VAL   O   A   403   TYR   N    
+     66    66    .   .   1   54    ASP   O   1   58    VAL   N   .   .   .   .   .   3.4   1   A   425   ASP   O   A   429   VAL   N    
+     67    67    .   .   1   55    GLY   O   1   59    ASP   N   .   .   .   .   .   3.4   1   A   426   GLY   O   A   430   ASP   N    
+     68    68    .   .   1   56    TYR   O   1   60    ARG   N   .   .   .   .   .   3.4   1   A   427   TYR   O   A   431   ARG   N    
+     69    69    .   .   1   57    ALA   O   1   61    ALA   N   .   .   .   .   .   3.4   1   A   428   ALA   O   A   432   ALA   N    
+     70    70    .   .   1   58    VAL   O   1   62    ILE   N   .   .   .   .   .   3.4   1   A   429   VAL   O   A   433   ILE   N    
+     71    71    .   .   1   59    ASP   O   1   63    THR   N   .   .   .   .   .   3.4   1   A   430   ASP   O   A   434   THR   N    
+     72    72    .   .   1   60    ARG   O   1   64    HIS   N   .   .   .   .   .   3.4   1   A   431   ARG   O   A   435   HIS   N    
+     73    73    .   .   1   61    ALA   O   1   65    LEU   N   .   .   .   .   .   3.4   1   A   432   ALA   O   A   436   LEU   N    
+     74    74    .   .   1   62    ILE   O   1   66    ASN   N   .   .   .   .   .   3.4   1   A   433   ILE   O   A   437   ASN   N    
+     75    75    .   .   1   130   HIS   H   1   174   GLU   O   .   .   .   .   .   2.4   1   A   501   HIS   H   A   545   GLU   O    
+     76    76    .   .   1   131   PHE   H   1   208   PHE   O   .   .   .   .   .   2.2   1   A   502   PHE   H   A   579   PHE   O    
+     77    77    .   .   1   132   PHE   H   1   172   LEU   O   .   .   .   .   .   2.4   1   A   503   PHE   H   A   543   LEU   O    
+     78    78    .   .   1   133   ASN   H   1   206   LEU   O   .   .   .   .   .   2.2   1   A   504   ASN   H   A   577   LEU   O    
+     79    79    .   .   1   157   SER   H   1   175   TRP   O   .   .   .   .   .   2.4   1   A   528   SER   H   A   546   TRP   O    
+     80    80    .   .   1   158   VAL   H   1   175   TRP   O   .   .   .   .   .   2.4   1   A   529   VAL   H   A   546   TRP   O    
+     81    81    .   .   1   160   VAL   H   1   173   LEU   O   .   .   .   .   .   2.4   1   A   531   VAL   H   A   544   LEU   O    
+     82    82    .   .   1   162   SER   H   1   171   GLY   O   .   .   .   .   .   2.4   1   A   533   SER   H   A   542   GLY   O    
+     83    83    .   .   1   128   VAL   O   1   176   ASP   H   .   .   .   .   .   2.4   1   A   499   VAL   O   A   547   ASP   H    
+     84    84    .   .   1   130   HIS   O   1   174   GLU   H   .   .   .   .   .   2.4   1   A   501   HIS   O   A   545   GLU   H    
+     85    85    .   .   1   132   PHE   O   1   172   LEU   H   .   .   .   .   .   2.4   1   A   503   PHE   O   A   543   LEU   H    
+     86    86    .   .   1   158   VAL   O   1   175   TRP   H   .   .   .   .   .   2.4   1   A   529   VAL   O   A   546   TRP   H    
+     87    87    .   .   1   160   VAL   O   1   173   LEU   H   .   .   .   .   .   2.4   1   A   531   VAL   O   A   544   LEU   H    
+     88    88    .   .   1   133   ASN   O   1   206   LEU   H   .   .   .   .   .   2.2   1   A   504   ASN   O   A   577   LEU   H    
+     89    89    .   .   1   131   PHE   O   1   208   PHE   H   .   .   .   .   .   2.2   1   A   502   PHE   O   A   579   PHE   H    
+     90    90    .   .   1   129   LEU   O   1   210   THR   H   .   .   .   .   .   2.2   1   A   500   LEU   O   A   581   THR   H    
+     91    91    .   .   1   139   THR   O   1   143   PHE   H   .   .   .   .   .   2.4   1   A   510   THR   O   A   514   PHE   H    
+     92    92    .   .   1   140   GLU   O   1   144   PHE   H   .   .   .   .   .   2.4   1   A   511   GLU   O   A   515   PHE   H    
+     93    93    .   .   1   141   GLU   O   1   145   GLU   H   .   .   .   .   .   2.4   1   A   512   GLU   O   A   516   GLU   H    
+     94    94    .   .   1   142   ASN   O   1   146   ILE   H   .   .   .   .   .   2.4   1   A   513   ASN   O   A   517   ILE   H    
+     95    95    .   .   1   143   PHE   O   1   147   CYS   H   .   .   .   .   .   2.4   1   A   514   PHE   O   A   518   CYS   H    
+     96    96    .   .   1   144   PHE   O   1   148   ASP   H   .   .   .   .   .   2.4   1   A   515   PHE   O   A   519   ASP   H    
+     97    97    .   .   1   145   GLU   O   1   149   GLU   H   .   .   .   .   .   2.4   1   A   516   GLU   O   A   520   GLU   H    
+     98    98    .   .   1   146   ILE   O   1   150   LEU   H   .   .   .   .   .   2.4   1   A   517   ILE   O   A   521   LEU   H    
+     99    99    .   .   1   178   LYS   O   1   182   LEU   H   .   .   .   .   .   2.4   1   A   549   LYS   O   A   553   LEU   H    
+     100   100   .   .   1   179   SER   O   1   183   GLU   H   .   .   .   .   .   2.4   1   A   550   SER   O   A   554   GLU   H    
+     101   101   .   .   1   180   ASP   O   1   184   THR   H   .   .   .   .   .   2.4   1   A   551   ASP   O   A   555   THR   H    
+     102   102   .   .   1   181   ALA   O   1   185   LEU   H   .   .   .   .   .   2.4   1   A   552   ALA   O   A   556   LEU   H    
+     103   103   .   .   1   182   LEU   O   1   186   GLY   H   .   .   .   .   .   2.4   1   A   553   LEU   O   A   557   GLY   H    
+     104   104   .   .   1   183   GLU   O   1   187   PHE   H   .   .   .   .   .   2.4   1   A   554   GLU   O   A   558   PHE   H    
+     105   105   .   .   1   184   THR   O   1   188   LEU   H   .   .   .   .   .   2.4   1   A   555   THR   O   A   559   LEU   H    
+     106   106   .   .   1   185   LEU   O   1   189   ASN   H   .   .   .   .   .   2.4   1   A   556   LEU   O   A   560   ASN   H    
+     107   107   .   .   1   186   GLY   O   1   190   HIS   H   .   .   .   .   .   2.4   1   A   557   GLY   O   A   561   HIS   H    
+     108   108   .   .   1   191   TYR   H   1   205   LYS   O   .   .   .   .   .   2.4   1   A   562   TYR   H   A   576   LYS   O    
+     109   109   .   .   1   130   HIS   N   1   174   GLU   O   .   .   .   .   .   3.4   1   A   501   HIS   N   A   545   GLU   O    
+     110   110   .   .   1   131   PHE   N   1   208   PHE   O   .   .   .   .   .   3.4   1   A   502   PHE   N   A   579   PHE   O    
+     111   111   .   .   1   132   PHE   N   1   172   LEU   O   .   .   .   .   .   3.4   1   A   503   PHE   N   A   543   LEU   O    
+     112   112   .   .   1   133   ASN   N   1   206   LEU   O   .   .   .   .   .   3.4   1   A   504   ASN   N   A   577   LEU   O    
+     113   113   .   .   1   157   SER   N   1   175   TRP   O   .   .   .   .   .   3.4   1   A   528   SER   N   A   546   TRP   O    
+     114   114   .   .   1   158   VAL   N   1   175   TRP   O   .   .   .   .   .   3.4   1   A   529   VAL   N   A   546   TRP   O    
+     115   115   .   .   1   160   VAL   N   1   173   LEU   O   .   .   .   .   .   3.4   1   A   531   VAL   N   A   544   LEU   O    
+     116   116   .   .   1   162   SER   N   1   171   GLY   O   .   .   .   .   .   3.4   1   A   533   SER   N   A   542   GLY   O    
+     117   117   .   .   1   128   VAL   O   1   176   ASP   N   .   .   .   .   .   3.4   1   A   499   VAL   O   A   547   ASP   N    
+     118   118   .   .   1   130   HIS   O   1   174   GLU   N   .   .   .   .   .   3.4   1   A   501   HIS   O   A   545   GLU   N    
+     119   119   .   .   1   132   PHE   O   1   172   LEU   N   .   .   .   .   .   3.4   1   A   503   PHE   O   A   543   LEU   N    
+     120   120   .   .   1   158   VAL   O   1   175   TRP   N   .   .   .   .   .   3.4   1   A   529   VAL   O   A   546   TRP   N    
+     121   121   .   .   1   160   VAL   O   1   173   LEU   N   .   .   .   .   .   3.4   1   A   531   VAL   O   A   544   LEU   N    
+     122   122   .   .   1   133   ASN   O   1   206   LEU   N   .   .   .   .   .   3.4   1   A   504   ASN   O   A   577   LEU   N    
+     123   123   .   .   1   131   PHE   O   1   208   PHE   N   .   .   .   .   .   3.4   1   A   502   PHE   O   A   579   PHE   N    
+     124   124   .   .   1   129   LEU   O   1   210   THR   N   .   .   .   .   .   3.4   1   A   500   LEU   O   A   581   THR   N    
+     125   125   .   .   1   139   THR   O   1   143   PHE   N   .   .   .   .   .   3.4   1   A   510   THR   O   A   514   PHE   N    
+     126   126   .   .   1   140   GLU   O   1   144   PHE   N   .   .   .   .   .   3.4   1   A   511   GLU   O   A   515   PHE   N    
+     127   127   .   .   1   141   GLU   O   1   145   GLU   N   .   .   .   .   .   3.4   1   A   512   GLU   O   A   516   GLU   N    
+     128   128   .   .   1   142   ASN   O   1   146   ILE   N   .   .   .   .   .   3.4   1   A   513   ASN   O   A   517   ILE   N    
+     129   129   .   .   1   143   PHE   O   1   147   CYS   N   .   .   .   .   .   3.4   1   A   514   PHE   O   A   518   CYS   N    
+     130   130   .   .   1   144   PHE   O   1   148   ASP   N   .   .   .   .   .   3.4   1   A   515   PHE   O   A   519   ASP   N    
+     131   131   .   .   1   145   GLU   O   1   149   GLU   N   .   .   .   .   .   3.4   1   A   516   GLU   O   A   520   GLU   N    
+     132   132   .   .   1   146   ILE   O   1   150   LEU   N   .   .   .   .   .   3.4   1   A   517   ILE   O   A   521   LEU   N    
+     133   133   .   .   1   178   LYS   O   1   182   LEU   N   .   .   .   .   .   3.4   1   A   549   LYS   O   A   553   LEU   N    
+     134   134   .   .   1   179   SER   O   1   183   GLU   N   .   .   .   .   .   3.4   1   A   550   SER   O   A   554   GLU   N    
+     135   135   .   .   1   180   ASP   O   1   184   THR   N   .   .   .   .   .   3.4   1   A   551   ASP   O   A   555   THR   N    
+     136   136   .   .   1   181   ALA   O   1   185   LEU   N   .   .   .   .   .   3.4   1   A   552   ALA   O   A   556   LEU   N    
+     137   137   .   .   1   182   LEU   O   1   186   GLY   N   .   .   .   .   .   3.4   1   A   553   LEU   O   A   557   GLY   N    
+     138   138   .   .   1   183   GLU   O   1   187   PHE   N   .   .   .   .   .   3.4   1   A   554   GLU   O   A   558   PHE   N    
+     139   139   .   .   1   184   THR   O   1   188   LEU   N   .   .   .   .   .   3.4   1   A   555   THR   O   A   559   LEU   N    
+     140   140   .   .   1   185   LEU   O   1   189   ASN   N   .   .   .   .   .   3.4   1   A   556   LEU   O   A   560   ASN   N    
+     141   141   .   .   1   186   GLY   O   1   190   HIS   N   .   .   .   .   .   3.4   1   A   557   GLY   O   A   561   HIS   N    
+     142   142   .   .   1   191   TYR   N   1   205   LYS   O   .   .   .   .   .   3.4   1   A   562   TYR   N   A   576   LYS   O    
+     143   144   .   .   1   11    MET   H   1   51    GLU   O   .   .   .   .   .   1.8   1   A   382   MET   H   A   422   GLU   O    
+     144   145   .   .   1   12    VAL   H   1   79    VAL   O   .   .   .   .   .   1.8   1   A   383   VAL   H   A   450   VAL   O    
+     145   146   .   .   1   13    TYR   H   1   49    MET   O   .   .   .   .   .   1.8   1   A   384   TYR   H   A   420   MET   O    
+     146   147   .   .   1   14    GLY   H   1   77    VAL   O   .   .   .   .   .   1.8   1   A   385   GLY   H   A   448   VAL   O    
+     147   148   .   .   1   38    VAL   H   1   52    MET   O   .   .   .   .   .   1.8   1   A   409   VAL   H   A   423   MET   O    
+     148   149   .   .   1   39    LYS   H   1   102   ASP   O   .   .   .   .   .   1.8   1   A   410   LYS   H   A   473   ASP   O    
+     149   150   .   .   1   40    PHE   H   1   50    VAL   O   .   .   .   .   .   1.8   1   A   411   PHE   H   A   421   VAL   O    
+     150   151   .   .   1   41    MET   H   1   100   TYR   O   .   .   .   .   .   1.8   1   A   412   MET   H   A   471   TYR   O    
+     151   152   .   .   1   13    TYR   O   1   49    MET   H   .   .   .   .   .   1.8   1   A   384   TYR   O   A   420   MET   H    
+     152   153   .   .   1   40    PHE   O   1   50    VAL   H   .   .   .   .   .   1.8   1   A   411   PHE   O   A   421   VAL   H    
+     153   154   .   .   1   11    MET   O   1   51    GLU   H   .   .   .   .   .   1.8   1   A   382   MET   O   A   422   GLU   H    
+     154   155   .   .   1   38    VAL   O   1   52    MET   H   .   .   .   .   .   1.8   1   A   409   VAL   O   A   423   MET   H    
+     155   156   .   .   1   9     VAL   O   1   53    ALA   H   .   .   .   .   .   1.8   1   A   380   VAL   O   A   424   ALA   H    
+     156   157   .   .   1   71    PHE   O   1   74    LYS   H   .   .   .   .   .   1.8   1   A   442   PHE   O   A   445   LYS   H    
+     157   158   .   .   1   69    PHE   O   1   76    ASN   H   .   .   .   .   .   1.8   1   A   440   PHE   O   A   447   ASN   H    
+     158   159   .   .   1   67    ASN   O   1   78    CYS   H   .   .   .   .   .   1.8   1   A   438   ASN   O   A   449   CYS   H    
+     159   160   .   .   1   14    GLY   O   1   77    VAL   H   .   .   .   .   .   1.8   1   A   385   GLY   O   A   448   VAL   H    
+     160   161   .   .   1   12    VAL   O   1   79    VAL   H   .   .   .   .   .   1.8   1   A   383   VAL   O   A   450   VAL   H    
+     161   162   .   .   1   39    LYS   O   1   102   ASP   H   .   .   .   .   .   1.8   1   A   410   LYS   O   A   473   ASP   H    
+     162   163   .   .   1   37    LYS   O   1   104   SER   H   .   .   .   .   .   1.8   1   A   408   LYS   O   A   475   SER   H    
+     163   164   .   .   1   22    CYS   O   1   25    VAL   H   .   .   .   .   .   1.8   1   A   393   CYS   O   A   396   VAL   H    
+     164   165   .   .   1   22    CYS   O   1   26    PHE   H   .   .   .   .   .   1.8   1   A   393   CYS   O   A   397   PHE   H    
+     165   166   .   .   1   23    ASP   O   1   27    ASN   H   .   .   .   .   .   1.8   1   A   394   ASP   O   A   398   ASN   H    
+     166   167   .   .   1   24    ARG   O   1   28    VAL   H   .   .   .   .   .   1.8   1   A   395   ARG   O   A   399   VAL   H    
+     167   168   .   .   1   25    VAL   O   1   29    PHE   H   .   .   .   .   .   1.8   1   A   396   VAL   O   A   400   PHE   H    
+     168   169   .   .   1   26    PHE   O   1   30    CYS   H   .   .   .   .   .   1.8   1   A   397   PHE   O   A   401   CYS   H    
+     169   170   .   .   1   27    ASN   O   1   31    LEU   H   .   .   .   .   .   1.8   1   A   398   ASN   O   A   402   LEU   H    
+     170   171   .   .   1   28    VAL   O   1   32    TYR   H   .   .   .   .   .   1.8   1   A   399   VAL   O   A   403   TYR   H    
+     171   172   .   .   1   54    ASP   O   1   58    VAL   H   .   .   .   .   .   1.8   1   A   425   ASP   O   A   429   VAL   H    
+     172   173   .   .   1   55    GLY   O   1   59    ASP   H   .   .   .   .   .   1.8   1   A   426   GLY   O   A   430   ASP   H    
+     173   174   .   .   1   56    TYR   O   1   60    ARG   H   .   .   .   .   .   1.8   1   A   427   TYR   O   A   431   ARG   H    
+     174   175   .   .   1   57    ALA   O   1   61    ALA   H   .   .   .   .   .   1.8   1   A   428   ALA   O   A   432   ALA   H    
+     175   176   .   .   1   58    VAL   O   1   62    ILE   H   .   .   .   .   .   1.8   1   A   429   VAL   O   A   433   ILE   H    
+     176   177   .   .   1   59    ASP   O   1   63    THR   H   .   .   .   .   .   1.8   1   A   430   ASP   O   A   434   THR   H    
+     177   178   .   .   1   60    ARG   O   1   64    HIS   H   .   .   .   .   .   1.8   1   A   431   ARG   O   A   435   HIS   H    
+     178   179   .   .   1   61    ALA   O   1   65    LEU   H   .   .   .   .   .   1.8   1   A   432   ALA   O   A   436   LEU   H    
+     179   180   .   .   1   62    ILE   O   1   66    ASN   H   .   .   .   .   .   1.8   1   A   433   ILE   O   A   437   ASN   H    
+     180   181   .   .   1   11    MET   N   1   51    GLU   O   .   .   .   .   .   2.4   1   A   382   MET   N   A   422   GLU   O    
+     181   182   .   .   1   12    VAL   N   1   79    VAL   O   .   .   .   .   .   2.4   1   A   383   VAL   N   A   450   VAL   O    
+     182   183   .   .   1   13    TYR   N   1   49    MET   O   .   .   .   .   .   2.4   1   A   384   TYR   N   A   420   MET   O    
+     183   184   .   .   1   14    GLY   N   1   77    VAL   O   .   .   .   .   .   2.4   1   A   385   GLY   N   A   448   VAL   O    
+     184   185   .   .   1   38    VAL   N   1   52    MET   O   .   .   .   .   .   2.4   1   A   409   VAL   N   A   423   MET   O    
+     185   186   .   .   1   39    LYS   N   1   102   ASP   O   .   .   .   .   .   2.4   1   A   410   LYS   N   A   473   ASP   O    
+     186   187   .   .   1   40    PHE   N   1   50    VAL   O   .   .   .   .   .   2.4   1   A   411   PHE   N   A   421   VAL   O    
+     187   188   .   .   1   41    MET   N   1   100   TYR   O   .   .   .   .   .   2.4   1   A   412   MET   N   A   471   TYR   O    
+     188   189   .   .   1   13    TYR   O   1   49    MET   N   .   .   .   .   .   2.4   1   A   384   TYR   O   A   420   MET   N    
+     189   190   .   .   1   40    PHE   O   1   50    VAL   N   .   .   .   .   .   2.4   1   A   411   PHE   O   A   421   VAL   N    
+     190   191   .   .   1   11    MET   O   1   51    GLU   N   .   .   .   .   .   2.4   1   A   382   MET   O   A   422   GLU   N    
+     191   192   .   .   1   38    VAL   O   1   52    MET   N   .   .   .   .   .   2.4   1   A   409   VAL   O   A   423   MET   N    
+     192   193   .   .   1   9     VAL   O   1   53    ALA   N   .   .   .   .   .   2.4   1   A   380   VAL   O   A   424   ALA   N    
+     193   194   .   .   1   71    PHE   O   1   74    LYS   N   .   .   .   .   .   2.4   1   A   442   PHE   O   A   445   LYS   N    
+     194   195   .   .   1   69    PHE   O   1   76    ASN   N   .   .   .   .   .   2.4   1   A   440   PHE   O   A   447   ASN   N    
+     195   196   .   .   1   67    ASN   O   1   78    CYS   N   .   .   .   .   .   2.4   1   A   438   ASN   O   A   449   CYS   N    
+     196   197   .   .   1   14    GLY   O   1   77    VAL   N   .   .   .   .   .   2.4   1   A   385   GLY   O   A   448   VAL   N    
+     197   198   .   .   1   12    VAL   O   1   79    VAL   N   .   .   .   .   .   2.4   1   A   383   VAL   O   A   450   VAL   N    
+     198   199   .   .   1   39    LYS   O   1   102   ASP   N   .   .   .   .   .   2.4   1   A   410   LYS   O   A   473   ASP   N    
+     199   200   .   .   1   37    LYS   O   1   104   SER   N   .   .   .   .   .   2.4   1   A   408   LYS   O   A   475   SER   N    
+     200   201   .   .   1   22    CYS   O   1   25    VAL   N   .   .   .   .   .   2.4   1   A   393   CYS   O   A   396   VAL   N    
+     201   202   .   .   1   22    CYS   O   1   26    PHE   N   .   .   .   .   .   2.4   1   A   393   CYS   O   A   397   PHE   N    
+     202   203   .   .   1   23    ASP   O   1   27    ASN   N   .   .   .   .   .   2.4   1   A   394   ASP   O   A   398   ASN   N    
+     203   204   .   .   1   24    ARG   O   1   28    VAL   N   .   .   .   .   .   2.4   1   A   395   ARG   O   A   399   VAL   N    
+     204   205   .   .   1   25    VAL   O   1   29    PHE   N   .   .   .   .   .   2.4   1   A   396   VAL   O   A   400   PHE   N    
+     205   206   .   .   1   26    PHE   O   1   30    CYS   N   .   .   .   .   .   2.4   1   A   397   PHE   O   A   401   CYS   N    
+     206   207   .   .   1   27    ASN   O   1   31    LEU   N   .   .   .   .   .   2.4   1   A   398   ASN   O   A   402   LEU   N    
+     207   208   .   .   1   28    VAL   O   1   32    TYR   N   .   .   .   .   .   2.4   1   A   399   VAL   O   A   403   TYR   N    
+     208   209   .   .   1   54    ASP   O   1   58    VAL   N   .   .   .   .   .   2.4   1   A   425   ASP   O   A   429   VAL   N    
+     209   210   .   .   1   55    GLY   O   1   59    ASP   N   .   .   .   .   .   2.4   1   A   426   GLY   O   A   430   ASP   N    
+     210   211   .   .   1   56    TYR   O   1   60    ARG   N   .   .   .   .   .   2.4   1   A   427   TYR   O   A   431   ARG   N    
+     211   212   .   .   1   57    ALA   O   1   61    ALA   N   .   .   .   .   .   2.4   1   A   428   ALA   O   A   432   ALA   N    
+     212   213   .   .   1   58    VAL   O   1   62    ILE   N   .   .   .   .   .   2.4   1   A   429   VAL   O   A   433   ILE   N    
+     213   214   .   .   1   59    ASP   O   1   63    THR   N   .   .   .   .   .   2.4   1   A   430   ASP   O   A   434   THR   N    
+     214   215   .   .   1   60    ARG   O   1   64    HIS   N   .   .   .   .   .   2.4   1   A   431   ARG   O   A   435   HIS   N    
+     215   216   .   .   1   61    ALA   O   1   65    LEU   N   .   .   .   .   .   2.4   1   A   432   ALA   O   A   436   LEU   N    
+     216   217   .   .   1   62    ILE   O   1   66    ASN   N   .   .   .   .   .   2.4   1   A   433   ILE   O   A   437   ASN   N    
+     217   218   .   .   1   130   HIS   H   1   174   GLU   O   .   .   .   .   .   1.8   1   A   501   HIS   H   A   545   GLU   O    
+     218   219   .   .   1   131   PHE   H   1   208   PHE   O   .   .   .   .   .   1.8   1   A   502   PHE   H   A   579   PHE   O    
+     219   220   .   .   1   132   PHE   H   1   172   LEU   O   .   .   .   .   .   1.8   1   A   503   PHE   H   A   543   LEU   O    
+     220   221   .   .   1   133   ASN   H   1   206   LEU   O   .   .   .   .   .   1.8   1   A   504   ASN   H   A   577   LEU   O    
+     221   222   .   .   1   157   SER   H   1   175   TRP   O   .   .   .   .   .   1.8   1   A   528   SER   H   A   546   TRP   O    
+     222   223   .   .   1   158   VAL   H   1   175   TRP   O   .   .   .   .   .   1.8   1   A   529   VAL   H   A   546   TRP   O    
+     223   224   .   .   1   160   VAL   H   1   173   LEU   O   .   .   .   .   .   1.8   1   A   531   VAL   H   A   544   LEU   O    
+     224   225   .   .   1   162   SER   H   1   171   GLY   O   .   .   .   .   .   1.8   1   A   533   SER   H   A   542   GLY   O    
+     225   226   .   .   1   128   VAL   O   1   176   ASP   H   .   .   .   .   .   1.8   1   A   499   VAL   O   A   547   ASP   H    
+     226   227   .   .   1   130   HIS   O   1   174   GLU   H   .   .   .   .   .   1.8   1   A   501   HIS   O   A   545   GLU   H    
+     227   228   .   .   1   132   PHE   O   1   172   LEU   H   .   .   .   .   .   1.8   1   A   503   PHE   O   A   543   LEU   H    
+     228   229   .   .   1   158   VAL   O   1   175   TRP   H   .   .   .   .   .   1.8   1   A   529   VAL   O   A   546   TRP   H    
+     229   230   .   .   1   160   VAL   O   1   173   LEU   H   .   .   .   .   .   1.8   1   A   531   VAL   O   A   544   LEU   H    
+     230   231   .   .   1   133   ASN   O   1   206   LEU   H   .   .   .   .   .   1.8   1   A   504   ASN   O   A   577   LEU   H    
+     231   232   .   .   1   131   PHE   O   1   208   PHE   H   .   .   .   .   .   1.8   1   A   502   PHE   O   A   579   PHE   H    
+     232   233   .   .   1   129   LEU   O   1   210   THR   H   .   .   .   .   .   1.8   1   A   500   LEU   O   A   581   THR   H    
+     233   234   .   .   1   139   THR   O   1   143   PHE   H   .   .   .   .   .   1.8   1   A   510   THR   O   A   514   PHE   H    
+     234   235   .   .   1   140   GLU   O   1   144   PHE   H   .   .   .   .   .   1.8   1   A   511   GLU   O   A   515   PHE   H    
+     235   236   .   .   1   141   GLU   O   1   145   GLU   H   .   .   .   .   .   1.8   1   A   512   GLU   O   A   516   GLU   H    
+     236   237   .   .   1   142   ASN   O   1   146   ILE   H   .   .   .   .   .   1.8   1   A   513   ASN   O   A   517   ILE   H    
+     237   238   .   .   1   143   PHE   O   1   147   CYS   H   .   .   .   .   .   1.8   1   A   514   PHE   O   A   518   CYS   H    
+     238   239   .   .   1   144   PHE   O   1   148   ASP   H   .   .   .   .   .   1.8   1   A   515   PHE   O   A   519   ASP   H    
+     239   240   .   .   1   145   GLU   O   1   149   GLU   H   .   .   .   .   .   1.8   1   A   516   GLU   O   A   520   GLU   H    
+     240   241   .   .   1   146   ILE   O   1   150   LEU   H   .   .   .   .   .   1.8   1   A   517   ILE   O   A   521   LEU   H    
+     241   242   .   .   1   178   LYS   O   1   182   LEU   H   .   .   .   .   .   1.8   1   A   549   LYS   O   A   553   LEU   H    
+     242   243   .   .   1   179   SER   O   1   183   GLU   H   .   .   .   .   .   1.8   1   A   550   SER   O   A   554   GLU   H    
+     243   244   .   .   1   180   ASP   O   1   184   THR   H   .   .   .   .   .   1.8   1   A   551   ASP   O   A   555   THR   H    
+     244   245   .   .   1   181   ALA   O   1   185   LEU   H   .   .   .   .   .   1.8   1   A   552   ALA   O   A   556   LEU   H    
+     245   246   .   .   1   182   LEU   O   1   186   GLY   H   .   .   .   .   .   1.8   1   A   553   LEU   O   A   557   GLY   H    
+     246   247   .   .   1   183   GLU   O   1   187   PHE   H   .   .   .   .   .   1.8   1   A   554   GLU   O   A   558   PHE   H    
+     247   248   .   .   1   184   THR   O   1   188   LEU   H   .   .   .   .   .   1.8   1   A   555   THR   O   A   559   LEU   H    
+     248   249   .   .   1   185   LEU   O   1   189   ASN   H   .   .   .   .   .   1.8   1   A   556   LEU   O   A   560   ASN   H    
+     249   250   .   .   1   186   GLY   O   1   190   HIS   H   .   .   .   .   .   1.8   1   A   557   GLY   O   A   561   HIS   H    
+     250   251   .   .   1   191   TYR   H   1   205   LYS   O   .   .   .   .   .   1.8   1   A   562   TYR   H   A   576   LYS   O    
+     251   252   .   .   1   130   HIS   N   1   174   GLU   O   .   .   .   .   .   2.4   1   A   501   HIS   N   A   545   GLU   O    
+     252   253   .   .   1   131   PHE   N   1   208   PHE   O   .   .   .   .   .   2.4   1   A   502   PHE   N   A   579   PHE   O    
+     253   254   .   .   1   132   PHE   N   1   172   LEU   O   .   .   .   .   .   2.4   1   A   503   PHE   N   A   543   LEU   O    
+     254   255   .   .   1   133   ASN   N   1   206   LEU   O   .   .   .   .   .   2.4   1   A   504   ASN   N   A   577   LEU   O    
+     255   256   .   .   1   157   SER   N   1   175   TRP   O   .   .   .   .   .   2.4   1   A   528   SER   N   A   546   TRP   O    
+     256   257   .   .   1   158   VAL   N   1   175   TRP   O   .   .   .   .   .   2.4   1   A   529   VAL   N   A   546   TRP   O    
+     257   258   .   .   1   160   VAL   N   1   173   LEU   O   .   .   .   .   .   2.4   1   A   531   VAL   N   A   544   LEU   O    
+     258   259   .   .   1   162   SER   N   1   171   GLY   O   .   .   .   .   .   2.4   1   A   533   SER   N   A   542   GLY   O    
+     259   260   .   .   1   128   VAL   O   1   176   ASP   N   .   .   .   .   .   2.4   1   A   499   VAL   O   A   547   ASP   N    
+     260   261   .   .   1   130   HIS   O   1   174   GLU   N   .   .   .   .   .   2.4   1   A   501   HIS   O   A   545   GLU   N    
+     261   262   .   .   1   132   PHE   O   1   172   LEU   N   .   .   .   .   .   2.4   1   A   503   PHE   O   A   543   LEU   N    
+     262   263   .   .   1   158   VAL   O   1   175   TRP   N   .   .   .   .   .   2.4   1   A   529   VAL   O   A   546   TRP   N    
+     263   264   .   .   1   160   VAL   O   1   173   LEU   N   .   .   .   .   .   2.4   1   A   531   VAL   O   A   544   LEU   N    
+     264   265   .   .   1   133   ASN   O   1   206   LEU   N   .   .   .   .   .   2.4   1   A   504   ASN   O   A   577   LEU   N    
+     265   266   .   .   1   131   PHE   O   1   208   PHE   N   .   .   .   .   .   2.4   1   A   502   PHE   O   A   579   PHE   N    
+     266   267   .   .   1   129   LEU   O   1   210   THR   N   .   .   .   .   .   2.4   1   A   500   LEU   O   A   581   THR   N    
+     267   268   .   .   1   139   THR   O   1   143   PHE   N   .   .   .   .   .   2.4   1   A   510   THR   O   A   514   PHE   N    
+     268   269   .   .   1   140   GLU   O   1   144   PHE   N   .   .   .   .   .   2.4   1   A   511   GLU   O   A   515   PHE   N    
+     269   270   .   .   1   141   GLU   O   1   145   GLU   N   .   .   .   .   .   2.4   1   A   512   GLU   O   A   516   GLU   N    
+     270   271   .   .   1   142   ASN   O   1   146   ILE   N   .   .   .   .   .   2.4   1   A   513   ASN   O   A   517   ILE   N    
+     271   272   .   .   1   143   PHE   O   1   147   CYS   N   .   .   .   .   .   2.4   1   A   514   PHE   O   A   518   CYS   N    
+     272   273   .   .   1   144   PHE   O   1   148   ASP   N   .   .   .   .   .   2.4   1   A   515   PHE   O   A   519   ASP   N    
+     273   274   .   .   1   145   GLU   O   1   149   GLU   N   .   .   .   .   .   2.4   1   A   516   GLU   O   A   520   GLU   N    
+     274   275   .   .   1   146   ILE   O   1   150   LEU   N   .   .   .   .   .   2.4   1   A   517   ILE   O   A   521   LEU   N    
+     275   276   .   .   1   178   LYS   O   1   182   LEU   N   .   .   .   .   .   2.4   1   A   549   LYS   O   A   553   LEU   N    
+     276   277   .   .   1   179   SER   O   1   183   GLU   N   .   .   .   .   .   2.4   1   A   550   SER   O   A   554   GLU   N    
+     277   278   .   .   1   180   ASP   O   1   184   THR   N   .   .   .   .   .   2.4   1   A   551   ASP   O   A   555   THR   N    
+     278   279   .   .   1   181   ALA   O   1   185   LEU   N   .   .   .   .   .   2.4   1   A   552   ALA   O   A   556   LEU   N    
+     279   280   .   .   1   182   LEU   O   1   186   GLY   N   .   .   .   .   .   2.4   1   A   553   LEU   O   A   557   GLY   N    
+     280   281   .   .   1   183   GLU   O   1   187   PHE   N   .   .   .   .   .   2.4   1   A   554   GLU   O   A   558   PHE   N    
+     281   282   .   .   1   184   THR   O   1   188   LEU   N   .   .   .   .   .   2.4   1   A   555   THR   O   A   559   LEU   N    
+     282   283   .   .   1   185   LEU   O   1   189   ASN   N   .   .   .   .   .   2.4   1   A   556   LEU   O   A   560   ASN   N    
+     283   284   .   .   1   186   GLY   O   1   190   HIS   N   .   .   .   .   .   2.4   1   A   557   GLY   O   A   561   HIS   N    
+     284   285   .   .   1   191   TYR   N   1   205   LYS   O   .   .   .   .   .   2.4   1   A   562   TYR   N   A   576   LYS   O    
+   stop_
+save_
+
