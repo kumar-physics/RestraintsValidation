@@ -654,5 +654,5 @@ class ValidateRestraints:
 
 
 if __name__ == "__main__":
-    # p = ValidateRestraints('nef_examples/2mqq.cif', 'nef_examples/2mqq.str')
-    p = ValidateRestraints('nef_examples/2m2e.cif', 'nef_examples/2m2e.str')
+    p = ValidateRestraints('nef_examples/2mqq.cif', 'nef_examples/CR107.str')
+    p = ValidateRestraints('nef_examples/2m2e.cif', 'nef_examples/CsR4.str')
