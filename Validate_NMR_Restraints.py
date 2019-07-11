@@ -11,6 +11,7 @@ import numpy
 import pynmrstar
 from monkeypatch import patch_parser
 import xml.etree.ElementTree as ET
+from operator import itemgetter
 
 patch_parser(pynmrstar)
 import logging
@@ -40,13 +41,48 @@ class ValidateRestraints:
             atm = atm + '*'
             print(i, nt.get_nmrstar_atom(res, atm))
         pdb, atom_ids = self.get_coordinates(cif_file)
+        max_models = len(pdb.keys())
         distance, angle = self.get_restraints(star_file, chain_dict)
         dv = self.calculate_distance_violations(pdb, distance)
         av = self.calculate_angle_violations(pdb, angle)
-        #self.write_xml(dv, av, distance, angle, atom_ids)
-        #self.write_xml_simple(dv, av)
-        #self.calculate_distance_violation_statistics(dv)
-        self.bin_angle_violations(av)
+        self.write_xml(dv, av, distance, angle, atom_ids)
+        # self.write_xml_simple(dv, av)
+        dist_viol_stat, dist_viol = self.calculate_violation_statistics(dv)
+        ang_viol_stat, ang_viol = self.calculate_violation_statistics(av)
+        sorted_dist_viol_stat = sorted(dist_viol_stat, reverse=True, key=itemgetter(0, 3))
+        sorted_dist_viol = sorted(dist_viol, reverse=True, key=itemgetter(0))
+        for i in sorted_dist_viol_stat[:10]:
+            print(i)
+        for i in sorted_dist_viol[:10]:
+            print(i)
+        type_stat, type_viol_stat, type_con_viol_stat = self.type_stat(dist_viol_stat,max_models)
+
+
+
+
+        # self.bin_distance_violations(dv)
+        # self.bin_angle_violations(dv)
+
+    @staticmethod
+    def type_stat(violation_stat, max_models):
+        rest_type_v = [i[5] for i in violation_stat if i[3] != 0]
+        rest_type_cv = [i[5] for i in violation_stat if i[3] == max_models]
+        rest_type_all = [i[5] for i in violation_stat]
+        uniq_type = list(set(rest_type_all))
+        type_count_all = {}
+        type_count_v = {}
+        type_count_cv = {}
+        total_all = len(violation_stat)
+        type_count_all['total'] = (total_all, 100.00)
+        for i in uniq_type:
+            type_count_all[i] = (
+            rest_type_all.count(i), round(((float(rest_type_all.count(i)) / float(total_all)) * 100.00), 2))
+            type_count_v[i] = (
+                rest_type_v.count(i), round(((float(rest_type_v.count(i)) / float(rest_type_all.count(i))) * 100.00), 2))
+            type_count_cv[i] = (
+                rest_type_cv.count(i), round(((float(rest_type_cv.count(i)) / float(rest_type_all.count(i))) * 100.00), 2))
+
+        return type_count_all,type_count_cv,type_count_v
 
     @staticmethod
     def get_coordinates(cif_file):
@@ -86,13 +122,13 @@ class ValidateRestraints:
             for dat in atom_site.getRowList():
                 if int(dat[model_id]) == model:
                     aid[(dat[seq_id], dat[asym_id], dat[comp_id], dat[atom_id])] = \
-                        (dat[entity_id],dat[asym_id],dat[comp_id],dat[seq_id],dat[aut_seq_id],
-                         dat[alt_id],dat[icode_id],dat[aut_aym_id])
+                        (dat[entity_id], dat[asym_id], dat[comp_id], dat[seq_id], dat[aut_seq_id],
+                         dat[alt_id], dat[icode_id], dat[aut_aym_id])
                     pdb[(dat[seq_id], dat[asym_id], dat[comp_id], dat[atom_id])] = \
                         numpy.array([float(dat[x_id]), float(dat[y_id]), float(dat[z_id])])
             pdb_models[model] = pdb
             atom_ids[model] = aid
-        return pdb_models,atom_ids
+        return pdb_models, atom_ids
 
     @staticmethod
     def get_restraints(star_file, chain_dict):
@@ -434,19 +470,17 @@ class ValidateRestraints:
                 for rest in distance[r_id]:
                     if distance_violations[r_id][m_id][0] > 0.0:
                         model = ET.SubElement(models, 'Violation')
-                        print (atom_ids[m_id][rest[0]])
-                        print(atom_ids[m_id][rest[1]])
                         model.set('rest_id', str(r_id[1]))
                         model.set('rest_list_id', str(r_id[0]))
-                        model.set('model_1',str(m_id))
-                        model.set('chain_1',atom_ids[m_id][rest[0]][7])
-                        model.set('resnum_1',atom_ids[m_id][rest[0]][4])
-                        model.set('ent_1',atom_ids[m_id][rest[0]][0])
-                        model.set('altcode_1',atom_ids[m_id][rest[0]][5])
-                        model.set('icode_1',atom_ids[m_id][rest[0]][6])
-                        model.set('seq_1',atom_ids[m_id][rest[0]][3])
-                        model.set('said_1',atom_ids[m_id][rest[0]][1])
-                        model.set('resname_1',atom_ids[m_id][rest[0]][2])
+                        model.set('model_1', str(m_id))
+                        model.set('chain_1', atom_ids[m_id][rest[0]][7])
+                        model.set('resnum_1', atom_ids[m_id][rest[0]][4])
+                        model.set('ent_1', atom_ids[m_id][rest[0]][0])
+                        model.set('altcode_1', atom_ids[m_id][rest[0]][5])
+                        model.set('icode_1', atom_ids[m_id][rest[0]][6])
+                        model.set('seq_1', atom_ids[m_id][rest[0]][3])
+                        model.set('said_1', atom_ids[m_id][rest[0]][1])
+                        model.set('resname_1', atom_ids[m_id][rest[0]][2])
                         model.set('model_2', str(m_id))
                         model.set('chain_2', atom_ids[m_id][rest[1]][7])
                         model.set('resnum_2', atom_ids[m_id][rest[1]][4])
@@ -566,58 +600,63 @@ class ValidateRestraints:
         t = ET.ElementTree(violations)
         t.write('simple.xml')
 
-
-    def calculate_distance_violation_statistics(self, violations):
+    @staticmethod
+    def calculate_violation_statistics(violations):
         rest_list = list(violations.keys())
         models = list(violations[rest_list[0]].keys())
         avg_violations = {}
+        viol = []
         for rest in rest_list:
             v = []
+            m_id = []
             for m in models:
                 if violations[rest][m][0] > 0.0:
                     v.append(violations[rest][m][0])
+                    viol.append([violations[rest][m][0], m, cat, rest])
+                    m_id.append(m)
                 cat = violations[rest][m][1]
             if len(v) > 0:
-                avg_violations[rest] = [numpy.mean(v), min(v), max(v), len(v), cat]
+                avg_violations[rest] = [numpy.mean(v), min(v), max(v), len(v), m_id, cat]
             else:
-                avg_violations[rest] = [0.0, 0.0, 0.0, 0, cat]
+                avg_violations[rest] = [0.0, 0.0, 0.0, 0, m_id, cat]
         avg = []
         con = []
+        avg_viol_list = []
         for rest in rest_list:
-            #print(rest, avg_violations[rest])
-            if avg_violations[rest][0] > 0.0:
-                avg.append([avg_violations[rest][0], avg_violations[rest], rest])
-                con.append([avg_violations[rest][3], avg_violations[rest], rest])
-        sorted_avg = sorted(avg, reverse=True)
-        sorted_con = sorted(con, reverse=True)
+            avg_viol_list.append(avg_violations[rest])
+            avg_viol_list[-1].append(rest)
+        # [avg_violation, min, max, number of violated model, category, rest identifier]
+        return avg_viol_list, viol
 
-    def bin_distance_violations(self,violations):
+    @staticmethod
+    def bin_distance_violations(violations):
         rest_list = list(violations.keys())
         models = list(violations[rest_list[0]].keys())
         stat = {}
         for m in models:
-            c = [0,0,0,0,0,0,0]
+            c = [0, 0, 0, 0, 0, 0, 0]
             for rest in rest_list:
                 if violations[rest][m][0] == 0.0:
-                    c[0]+=1
+                    c[0] += 1
                 elif 0.0 < violations[rest][m][0] <= 0.2:
-                    c[1]+=1
+                    c[1] += 1
                 elif 0.2 < violations[rest][m][0] <= 0.5:
-                    c[2]+=1
+                    c[2] += 1
                 elif 0.5 < violations[rest][m][0] <= 1.0:
-                    c[3]+=1
+                    c[3] += 1
                 elif 1.0 < violations[rest][m][0] <= 2.0:
-                    c[4]+=1
+                    c[4] += 1
                 elif 2.0 < violations[rest][m][0] <= 5.0:
-                    c[5]+=1
+                    c[5] += 1
                 elif 5.0 < violations[rest][m][0]:
-                    c[6]+=1
+                    c[6] += 1
                 else:
-                    print ("Error in violation calculation")
-            stat[m]=c
+                    print("Error in violation calculation")
+            stat[m] = c
         return stat
 
-    def bin_angle_violations(self, violations):
+    @staticmethod
+    def bin_angle_violations(violations):
         rest_list = list(violations.keys())
         models = list(violations[rest_list[0]].keys())
         stat = {}
@@ -640,19 +679,10 @@ class ValidateRestraints:
                     c[6] += 1
                 else:
                     print("Error in violation calculation")
-            stat[m] =c
-        for m in models:
-            print (m,stat[m])
+            stat[m] = c
         return stat
 
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
-    p = ValidateRestraints('nef_examples/2mqq.cif', 'nef_examples/CR107.str')
-    p = ValidateRestraints('nef_examples/2m2e.cif', 'nef_examples/CsR4.str')
+    # p = ValidateRestraints('vtf_examples/CtR107.cif', 'vtf_examples/CtR107.nef')
+    p = ValidateRestraints('nef_examples/2m2e.cif', 'nef_examples/2m2e.str')
