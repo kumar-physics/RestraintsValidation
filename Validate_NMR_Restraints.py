@@ -51,17 +51,33 @@ class ValidateRestraints:
         ang_viol_stat, ang_viol = self.calculate_violation_statistics(av)
         sorted_dist_viol_stat = sorted(dist_viol_stat, reverse=True, key=itemgetter(0, 3))
         sorted_dist_viol = sorted(dist_viol, reverse=True, key=itemgetter(0))
-        for i in sorted_dist_viol_stat[:10]:
-            print(i)
-        for i in sorted_dist_viol[:10]:
-            print(i)
-        type_stat, type_viol_stat, type_con_viol_stat = self.type_stat(dist_viol_stat,max_models)
+        sorted_ang_viol_stat = sorted(ang_viol_stat,reverse=True, key = itemgetter(0,3))
+        sorted_ang_viol = sorted(ang_viol,reverse= True,key = itemgetter(0))
+        type_stat_dist = self.type_stat(dist_viol_stat,max_models)
+        type_stat_ang = self.type_stat(ang_viol_stat, max_models)
+        json_data = self.generate_json(type_stat_dist,type_stat_ang,sorted_dist_viol_stat,sorted_dist_viol,sorted_ang_viol_stat,sorted_ang_viol)
+        with open('data_json.json','w') as write_file:
+            json.dump(json_data,write_file)
 
+    @staticmethod
+    def generate_json(type_stat_dist, type_stat_ang, dist_viol_stat, dist_viol, ang_viol_stat, ang_viol):
+        restraints_validation = {}
+        distance = {}
+        distance['summary']= type_stat_dist[0]
+        distance['violated'] = type_stat_dist[2]
+        distance['consistently_violated'] = type_stat_dist[1]
+        distance['sorted_average_violations'] = dist_viol_stat
+        distance['sorted_violations'] = dist_viol
+        angle = {}
+        angle['summary'] = type_stat_ang[0]
+        angle['violated'] = type_stat_ang[2]
+        angle['consistently_violated'] = type_stat_ang[1]
+        angle['sorted_average_violations'] = ang_viol_stat
+        angle['sorted_violations'] = ang_viol
+        restraints_validation['distance'] = distance
+        restraints_validation['angle'] = angle
+        return restraints_validation
 
-
-
-        # self.bin_distance_violations(dv)
-        # self.bin_angle_violations(dv)
 
     @staticmethod
     def type_stat(violation_stat, max_models):
