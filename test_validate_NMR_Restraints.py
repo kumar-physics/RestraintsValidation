@@ -106,11 +106,22 @@ class TestValidate_NMR_Restraints(TestCase):
              7.9136819496363371, 6.4942862579347373]), 3.774507721666569)
 
 
-    # def test_calculate_distance_violations(self):
-    #     self.fail()
-    #
-    # def test_calculate_angle_violations(self):
-    #     self.fail()
+    def test_calculate_distance_violations(self):
+        VR = V.Validate_NMR_Restraints()
+        models, maps = VR.get_coordinates('nef_examples/2m2e.cif')
+        distance, angle, chain_dict = VR.get_restraints('nef_examples/2m2e.str')
+        violations = VR.calculate_distance_violations(models,distance)
+        self.assertEqual(len(distance),len(violations))
+        self.assertEqual(len(models), len(violations[list(distance.keys())[0]]))
+
+
+    def test_calculate_angle_violations(self):
+        VR = V.Validate_NMR_Restraints()
+        models, maps = VR.get_coordinates('nef_examples/2m2e.cif')
+        distance, angle, chain_dict = VR.get_restraints('nef_examples/2m2e.str')
+        violations = VR.calculate_angle_violations(models, angle)
+        self.assertEqual(len(angle), len(violations))
+        self.assertEqual(len(models), len(violations[list(angle.keys())[0]]))
     #
     # def test_write_xml(self):
     #     self.fail()
@@ -118,11 +129,32 @@ class TestValidate_NMR_Restraints(TestCase):
     # def test_write_xml_simple(self):
     #     self.fail()
     #
-    # def test_calculate_violation_statistics(self):
-    #     self.fail()
+    def test_calculate_violation_statistics(self):
+        VR = V.Validate_NMR_Restraints()
+        models, maps = VR.get_coordinates('nef_examples/2m2e.cif')
+        distance, angle, chain_dict = VR.get_restraints('nef_examples/2m2e.str')
+        violations = VR.calculate_distance_violations(models, distance)
+        viol_stat = VR.calculate_violation_statistics(violations)
+        self.assertEqual(len(viol_stat[0]), len(violations))
+        violations = VR.calculate_angle_violations(models, angle)
+        viol_stat = VR.calculate_violation_statistics(violations)
+        self.assertEqual(len(viol_stat[0]), len(violations))
     #
-    # def test_bin_distance_violations(self):
-    #     self.fail()
-    #
-    # def test_bin_angle_violations(self):
-    #     self.fail()
+    def test_bin_distance_violations(self):
+        VR = V.Validate_NMR_Restraints()
+        models, maps = VR.get_coordinates('nef_examples/2m2e.cif')
+        distance, angle, chain_dict = VR.get_restraints('nef_examples/2m2e.str')
+        violations = VR.calculate_distance_violations(models, distance)
+        bins = VR.bin_distance_violations(violations)
+        self.assertEqual(len(models),len(bins))
+        self.assertEqual(len(bins[1]),7)
+
+
+    def test_bin_angle_violations(self):
+        VR = V.Validate_NMR_Restraints()
+        models, maps = VR.get_coordinates('nef_examples/2m2e.cif')
+        distance, angle, chain_dict = VR.get_restraints('nef_examples/2m2e.str')
+        violations = VR.calculate_angle_violations(models, angle)
+        bins = VR.bin_angle_violations(violations)
+        self.assertEqual(len(models), len(bins))
+        self.assertEqual(len(bins[1]), 7)

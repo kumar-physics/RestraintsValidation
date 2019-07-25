@@ -30,7 +30,6 @@ class Validate_NMR_Restraints:
 
     def run_validation(self,cif_file,star_file):
         nt = NEFTranslator.NEFTranslator()
-        print(nt.validate_file(star_file, 'R'))
         pdb, atom_ids = self.get_coordinates(cif_file)
         max_models = len(pdb.keys())
         distance, angle, chain_dict = self.get_restraints(star_file)
@@ -675,7 +674,6 @@ class Validate_NMR_Restraints:
                 else:
                     print("Error in violation calculation")
             stat[m] = c
-        print (stat)
         return stat
 
     @staticmethod
