@@ -14,56 +14,48 @@ import xml.etree.ElementTree as ET
 from operator import itemgetter
 
 patch_parser(pynmrstar)
-import logging
-import ntpath
-import operator
+
 import json
 
 
-class ValidateRestraints:
+class Validate_NMR_Restraints:
     """
     NMR restraints validation module
     """
     __version__ = "v0.8"
 
-    def __init__(self, cif_file, star_file):
-        chain_dict = self.get_chain_map(star_file)
+    def __init__(self):
+        pass
+
+
+    def run_validation(self,cif_file,star_file):
         nt = NEFTranslator.NEFTranslator()
-        print(nt.validate_file(star_file, 'R'))
-        sd = pynmrstar.Entry.from_file(star_file)
-        psudo_atoms = nt.validate_atom(sd, lp_category='_Gen_dist_constraint', seq_id='Comp_index_ID_1',
-                                       res_id='Comp_ID_1', atom_id='Atom_ID_1')
-        for i in psudo_atoms:
-            res = i[1]
-            atm = i[2]
-            atm = atm.replace('M', 'H')
-            atm = atm.replace('Q', 'H')
-            atm = atm + '*'
-            print(i, nt.get_nmrstar_atom(res, atm))
         pdb, atom_ids = self.get_coordinates(cif_file)
         max_models = len(pdb.keys())
-        distance, angle = self.get_restraints(star_file, chain_dict)
+        distance, angle, chain_dict = self.get_restraints(star_file)
         dv = self.calculate_distance_violations(pdb, distance)
         av = self.calculate_angle_violations(pdb, angle)
         self.write_xml(dv, av, distance, angle, atom_ids)
         # self.write_xml_simple(dv, av)
         dist_viol_stat, dist_viol = self.calculate_violation_statistics(dv)
         ang_viol_stat, ang_viol = self.calculate_violation_statistics(av)
+        self.bin_distance_violations(dv)
         sorted_dist_viol_stat = sorted(dist_viol_stat, reverse=True, key=itemgetter(0, 3))
         sorted_dist_viol = sorted(dist_viol, reverse=True, key=itemgetter(0))
-        sorted_ang_viol_stat = sorted(ang_viol_stat,reverse=True, key = itemgetter(0,3))
-        sorted_ang_viol = sorted(ang_viol,reverse= True,key = itemgetter(0))
-        type_stat_dist = self.type_stat(dist_viol_stat,max_models)
-        type_stat_ang = self.type_stat(ang_viol_stat, max_models)
-        json_data = self.generate_json(type_stat_dist,type_stat_ang,sorted_dist_viol_stat,sorted_dist_viol,sorted_ang_viol_stat,sorted_ang_viol)
-        with open('data_json.json','w') as write_file:
-            json.dump(json_data,write_file)
+        sorted_ang_viol_stat = sorted(ang_viol_stat, reverse=True, key=itemgetter(0, 3))
+        sorted_ang_viol = sorted(ang_viol, reverse=True, key=itemgetter(0))
+        type_stat_dist = self.restraints_type_statistics(dist_viol_stat, max_models)
+        type_stat_ang = self.restraints_type_statistics(ang_viol_stat, max_models)
+        json_data = self.generate_json(type_stat_dist, type_stat_ang, sorted_dist_viol_stat, sorted_dist_viol,
+                                       sorted_ang_viol_stat, sorted_ang_viol)
+        with open('data_json.json', 'w') as write_file:
+            json.dump(json_data, write_file)
 
     @staticmethod
     def generate_json(type_stat_dist, type_stat_ang, dist_viol_stat, dist_viol, ang_viol_stat, ang_viol):
         restraints_validation = {}
         distance = {}
-        distance['summary']= type_stat_dist[0]
+        distance['summary'] = type_stat_dist[0]
         distance['violated'] = type_stat_dist[2]
         distance['consistently_violated'] = type_stat_dist[1]
         distance['sorted_average_violations'] = dist_viol_stat
@@ -78,27 +70,34 @@ class ValidateRestraints:
         restraints_validation['angle'] = angle
         return restraints_validation
 
-
     @staticmethod
-    def type_stat(violation_stat, max_models):
-        rest_type_v = [i[5] for i in violation_stat if i[3] != 0]
-        rest_type_cv = [i[5] for i in violation_stat if i[3] == max_models]
-        rest_type_all = [i[5] for i in violation_stat]
+    def restraints_type_statistics(violation_statistics, max_models):
+        """
+        Counts the number of restraints and violations in each restraints type(distance: intraresidue, sequential,
+        medium, long; angle : PHI, PSI, etc.. )
+        :param violation_statistics: output from calculate_violation_statisitcs
+        :param max_models: Number of models in the ensemble (required to estimate the consistently violated restraitns)
+        :return: three statistics in a dictionary format (General summary, Consistently violated, Violated)
+        """
+        rest_type_v = [i[5] for i in violation_statistics if i[3] != 0]  # Violated at lease in one model
+        rest_type_cv = [i[5] for i in violation_statistics if i[3] == max_models]  # Violated in all modes
+        rest_type_all = [i[5] for i in violation_statistics]
         uniq_type = list(set(rest_type_all))
         type_count_all = {}
         type_count_v = {}
         type_count_cv = {}
-        total_all = len(violation_stat)
-        type_count_all['total'] = (total_all, 100.00)
+        total_all = len(violation_statistics)
+        type_count_all['total'] = (total_all, 100.00)  # Count and percentage
         for i in uniq_type:
             type_count_all[i] = (
-            rest_type_all.count(i), round(((float(rest_type_all.count(i)) / float(total_all)) * 100.00), 2))
+                rest_type_all.count(i), round(((float(rest_type_all.count(i)) / float(total_all)) * 100.00), 2))
             type_count_v[i] = (
-                rest_type_v.count(i), round(((float(rest_type_v.count(i)) / float(rest_type_all.count(i))) * 100.00), 2))
+                rest_type_v.count(i),
+                round(((float(rest_type_v.count(i)) / float(rest_type_all.count(i))) * 100.00), 2))
             type_count_cv[i] = (
-                rest_type_cv.count(i), round(((float(rest_type_cv.count(i)) / float(rest_type_all.count(i))) * 100.00), 2))
-
-        return type_count_all,type_count_cv,type_count_v
+                rest_type_cv.count(i),
+                round(((float(rest_type_cv.count(i)) / float(rest_type_all.count(i))) * 100.00), 2))
+        return type_count_all, type_count_cv, type_count_v
 
     @staticmethod
     def get_coordinates(cif_file):
@@ -147,7 +146,12 @@ class ValidateRestraints:
         return pdb_models, atom_ids
 
     @staticmethod
-    def get_restraints(star_file, chain_dict):
+    def get_restraints(star_file):
+        """
+        Extracts restraints from NMR-STAR file
+        :param star_file: NMR-STAR file
+        :return: distance restraints in dictionary format, angle restraints in dictionary format, chain map as dictionary
+        """
         lp_flg = 0
         dat_flg = 1
         try:
@@ -176,6 +180,18 @@ class ValidateRestraints:
         except IOError:
             print("Error file not found")
             dat_flg = 0
+
+        try:
+            entity_assembly = star_data.get_loops_by_category('_Entity_assembly')[0]
+            col_names = entity_assembly.get_tag_names()
+            id_index = col_names.index('_Entity_assembly.ID')
+            asym_index = col_names.index('_Entity_assembly.Asym_ID')
+            chain_dict = {}
+            for row in entity_assembly:
+                chain_map[row[id_index]] = row[asym_index]
+        except IndexError:
+            print("Entity_assembly loop not found, No chain mapping created")
+            chain_dict = {}
         if dat_flg:
             dist_dict2 = {}
             dist_dict = {}
@@ -359,23 +375,28 @@ class ValidateRestraints:
         else:
             angle_dict = None
             angle_dict2 = None
-        return dist_dict2, angle_dict2
+        return dist_dict2, angle_dict2, chain_dict
 
     @staticmethod
     def get_distance(c1, c2):
-
-        """ Calculates the distance between two coordinate values.         6167  4830  .  A  478  ARG  HD%   B  2    C    H2'   1  .  .  .  .  4     .
-
-        Each coordinate is an array of x,y,z. Returns distance in A assuming the input coordinates are in A"""
-
+        """
+        Calculates the distance between two coordinate points
+        :param c1: array of x,y,z
+        :param c2: array of x,y,z
+        :return: distance between two ponts
+        """
         return numpy.linalg.norm(c1 - c2)
 
     @staticmethod
     def get_dihedral_angle(c1, c2, c3, c4):
-
-        """ Calculates the dihedral angle from the given four coordinate values.
-        Each coordinate is an array of x,y,z. Returns angle in degrees"""
-
+        """
+        Calculates the dihedral angle from the given set of four coordinate values
+        :param c1: array of x,y,z
+        :param c2: array of x,y,z
+        :param c3: array of x,y,z
+        :param c4: array of x,y,z
+        :return: angle in degrees
+        """
         bv12 = c1 - c2
         bv32 = c3 - c2
         bv43 = c4 - c3
@@ -392,31 +413,25 @@ class ValidateRestraints:
             angle = -angle
         return round(numpy.degrees(angle), 4)
 
-    @staticmethod
-    def get_chain_map(star_file):
-        ent = pynmrstar.Entry.from_file(star_file)
-        try:
-            entity_assembly = ent.get_loops_by_category('_Entity_assembly')[0]
-            col_names = entity_assembly.get_tag_names()
-            id_index = col_names.index('_Entity_assembly.ID')
-            asym_index = col_names.index('_Entity_assembly.Asym_ID')
-            chain_map = {}
-            for row in entity_assembly:
-                chain_map[row[id_index]] = row[asym_index]
-        except IndexError:
-            print("Entity_assembly loop not found, No chain mapping created")
-            chain_map = {}
-        return chain_map
+
 
     @staticmethod
     def r6sum(dist_list):
+        """
+        Calculates 1/r^6 sum for ambiguous restraints as recommended by NMR VTF
+        :param dist_list: list of distances
+        :return: r6 sum
+        """
         return (sum([i ** (-6.) for i in dist_list])) ** (-1. / 6.)
 
-    @staticmethod
-    def r6average(dist_list):
-        return (sum([i ** (-6.) for i in dist_list]) / float(len(dist_list))) ** (-1. / 6.)
-
     def calculate_distance_violations(self, coordinates, restraints):
+        """
+        Calculates violation for each restraint
+        :param coordinates:  output from get_coordinates
+        :param restraints:  output from get_restraints
+        :return: dictionary { rest identifier : { model no : (value, 'type') }} example {('1', '1210'):
+        {1: (0.22874009681108554, 'long'), 2: (0.084672752498432757, 'long')...}}
+        """
         violations = {}
         for rest_id in restraints.keys():
             m = {}
@@ -444,6 +459,13 @@ class ValidateRestraints:
         return violations
 
     def calculate_angle_violations(self, coordinates, restraints):
+        """
+        Calculates violation for each restraint
+        :param coordinates: output from get_coordinates
+        :param restraints:  output from get_restraints
+        :return: dictionary { rest identifier : { model no : (value, 'type') }} example {('1', '121'):
+        {1: (0.22874009681108554, 'PSI'), 2: (0.084672752498432757, 'PHI')...}}
+        """
         violations = {}
         for rest_id in restraints.keys():
             m = {}
@@ -474,7 +496,8 @@ class ValidateRestraints:
             violations[rest_id] = m
         return violations
 
-    def write_xml(self, distance_violations, angle_violations, distance, angle, atom_ids):
+    @staticmethod
+    def write_xml(distance_violations, angle_violations, distance, angle, atom_ids):
         rest_ids = list(distance_violations.keys())
         model_ids = list(distance_violations[rest_ids[0]].keys())
         violations = ET.Element('RestraintsViolations')
@@ -587,37 +610,16 @@ class ValidateRestraints:
         t = ET.ElementTree(violations)
         t.write('full.xml')
 
-    def write_xml_simple(self, distance_violations, angle_violations):
-        rest_ids = list(distance_violations.keys())
-        model_ids = list(distance_violations[rest_ids[0]].keys())
-        violations = ET.Element('RestraintsViolations')
-        dist_viol = ET.SubElement(violations, 'DistanceViolations')
-        for m_id in model_ids[:5]:
-            models = ET.SubElement(dist_viol, 'Model')
-            models.set('model', str(m_id))
-            for r_id in rest_ids[:5]:
-                model = ET.SubElement(models, 'Violation')
-                model.set('rest_id', str(r_id[1]))
-                model.set('rest_list_id', str(r_id[0]))
-                model.set('violation', str(distance_violations[r_id][m_id][0]))
-                model.set('rest_type', distance_violations[r_id][m_id][1])
-        rest_ids = list(angle_violations.keys())
-        ang_viol = ET.SubElement(violations, 'AngleViolations')
-        for m_id in model_ids[:5]:
-            models = ET.SubElement(ang_viol, 'Model')
-            model.set('model', str(m_id))
-            for r_id in rest_ids[:5]:
-                model = ET.SubElement(models, 'Violation')
-                model.set('rest_id', str(r_id[1]))
-                model.set('rest_list_id', str(r_id[0]))
-                model.set('violation', str(angle_violations[r_id][m_id][0]))
-                model.set('rest_type', angle_violations[r_id][m_id][1])
-        ET.tostring(violations)
-        t = ET.ElementTree(violations)
-        t.write('simple.xml')
 
     @staticmethod
     def calculate_violation_statistics(violations):
+        """
+        Calculates average violation value for each restraint for an ensemble
+        :param violations: output from calculate_distance_violations or calculate_angle_violations
+        :return: list of average violation for each restraint, list of violations
+        example output [0.050748176870277231, 0.00147115297574274, 0.11772253375387987, 7, [2, 5, 7, 11, 14, 18, 19],
+         'medium', ('1', '1')],[0.041170250870272262, 2, 'medium', ('1', '1')]
+        """
         rest_list = list(violations.keys())
         models = list(violations[rest_list[0]].keys())
         avg_violations = {}
@@ -635,17 +637,20 @@ class ValidateRestraints:
                 avg_violations[rest] = [numpy.mean(v), min(v), max(v), len(v), m_id, cat]
             else:
                 avg_violations[rest] = [0.0, 0.0, 0.0, 0, m_id, cat]
-        avg = []
-        con = []
         avg_viol_list = []
         for rest in rest_list:
             avg_viol_list.append(avg_violations[rest])
             avg_viol_list[-1].append(rest)
-        # [avg_violation, min, max, number of violated model, category, rest identifier]
         return avg_viol_list, viol
 
     @staticmethod
     def bin_distance_violations(violations):
+        """
+        Count the number of violations in different bins (not violated)(0-0.2),(0.2-0.5),(0.5-1.0),(1.0-2.0),(2.0-5.0),(>5)
+        :param violations: output from calculate_distance_violations
+        :return: disctionary {model id : [count in each bin]} example {1: [1475, 19, 7, 12, 19, 7, 0],
+         2: [1469, 30, 7, 9, 15, 9, 0], 3: [1473, 23, 7, 7, 20, 9, 0]...}
+        """
         rest_list = list(violations.keys())
         models = list(violations[rest_list[0]].keys())
         stat = {}
@@ -673,6 +678,12 @@ class ValidateRestraints:
 
     @staticmethod
     def bin_angle_violations(violations):
+        """
+        Count the number of violations in different bins (not violated)(0-5),(5-10),(10-20),(20-40),(40-80),(>80)
+        :param violations: output from calculate_angle_violations
+        :return: dictionary {model id : [count in each bin]} example {1: [1475, 19, 7, 12, 19, 7, 0],
+         2: [1469, 30, 7, 9, 15, 9, 0], 3: [1473, 23, 7, 7, 20, 9, 0]...}
+        """
         rest_list = list(violations.keys())
         models = list(violations[rest_list[0]].keys())
         stat = {}
@@ -701,4 +712,5 @@ class ValidateRestraints:
 
 if __name__ == "__main__":
     # p = ValidateRestraints('vtf_examples/CtR107.cif', 'vtf_examples/CtR107.nef')
-    p = ValidateRestraints('nef_examples/2m2e.cif', 'nef_examples/2m2e.str')
+    p = Validate_NMR_Restraints()
+    p.run_validation('nef_examples/2m2e.cif', 'nef_examples/2m2e.str')
