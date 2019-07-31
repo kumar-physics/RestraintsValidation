@@ -628,11 +628,12 @@ class Validate_NMR_Restraints:
             v = []
             m_id = []
             for m in models:
+                cat = violations[rest][m][1]
                 if violations[rest][m][0] > 0.0:
                     v.append(violations[rest][m][0])
                     viol.append([violations[rest][m][0], m, cat, rest])
                     m_id.append(m)
-                cat = violations[rest][m][1]
+
             if len(v) > 0:
                 avg_violations[rest] = [numpy.mean(v), min(v), max(v), len(v), m_id, cat]
             else:
@@ -713,4 +714,4 @@ class Validate_NMR_Restraints:
 if __name__ == "__main__":
     # p = ValidateRestraints('vtf_examples/CtR107.cif', 'vtf_examples/CtR107.nef')
     p = Validate_NMR_Restraints()
-    p.run_validation('nef_examples/2m2e.cif', 'nef_examples/2m2e.str')
+    p.run_validation('vtf_examples/CtR107.cif', 'vtf_examples/CtR107.str')
