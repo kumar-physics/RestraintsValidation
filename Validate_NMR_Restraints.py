@@ -24,8 +24,8 @@ class Validate_NMR_Restraints:
     """
     __version__ = "v0.8"
 
-    def __init__(self):
-        pass
+    def __init__(self,cif_file, star_file):
+        self.run_validation(cif_file,star_file)
 
 
     def run_validation(self,cif_file,star_file):
@@ -48,8 +48,9 @@ class Validate_NMR_Restraints:
         type_stat_ang = self.restraints_type_statistics(ang_viol_stat, max_models)
         json_data = self.generate_json(type_stat_dist, type_stat_ang, sorted_dist_viol_stat, sorted_dist_viol,
                                        sorted_ang_viol_stat, sorted_ang_viol)
-        with open('data_json.json', 'w') as write_file:
-            json.dump(json_data, write_file)
+        #with open('data_json.json', 'w') as write_file:
+           # json.dump(json_data, write_file)
+        return json_data
 
     @staticmethod
     def generate_json(type_stat_dist, type_stat_ang, dist_viol_stat, dist_viol, ang_viol_stat, ang_viol):

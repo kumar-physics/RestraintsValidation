@@ -481,6 +481,7 @@ class NEFTranslator(object):
         else:
             out_tag = nt
         if nef_loop_tags[0].split(".")[0] == "_nef_chemical_shift":
+            out_tag.append('_Atom_chem_shift.ID')
             out_tag.append('_Atom_chem_shift.Ambiguity_code')
             out_tag.append('_Atom_chem_shift.Ambiguity_set_ID')
             out_tag.append('_Atom_chem_shift.Assigned_chem_shift_list_ID')
@@ -822,7 +823,11 @@ class NEFTranslator(object):
                             sf.add_tag("Sf_category", self.get_nmrstar_tag(saveframe.category)[0])
                         else:
                             neftag = '{}.{}'.format(saveframe.tag_prefix, tag[0])
-                            sf.add_tag(self.get_nmrstar_tag(neftag)[0], tag[1])
+                            strtag = self.get_nmrstar_tag(neftag)
+                            if strtag[0] == '':
+                                print ('Tag not found in NEF dictionary : {}'.format(neftag))
+                            else:
+                                sf.add_tag(strtag[0], tag[1])
                     if saveframe.category == "nef_nmr_meta_data":
                         sf.add_tag("NMR_STAR_version", "3.2.0.15")
                         # sf.add_tag("Generated_date", self.TimeStamp(time.time()), update=True)
@@ -848,6 +853,7 @@ class NEFTranslator(object):
                         for t in lp_cols:
                             lp.add_tag(t)
                         # print (loop.category,lp.category,lp.get_tag_names(),loop.get_tag_names())
+                        cs_id=1
                         for dat in loop.data:
                             if loop.category == "_nef_sequence":
                                 dd = self.translate_seq_row(loop.get_tag_names(), lp.get_tag_names(), dat)
@@ -865,6 +871,9 @@ class NEFTranslator(object):
                                 for d in dd:
                                     d[lp.get_tag_names().index(
                                         '_Atom_chem_shift.Assigned_chem_shift_list_ID')] = cs_list
+                                    d[lp.get_tag_names().index(
+                                        '_Atom_chem_shift.ID')] = cs_id
+                                    cs_id+=1
                                     lp.add_data(d)
                             elif loop.category == '_nef_distance_restraint':
                                 dd = self.translate_restraint_row(loop.get_tag_names(), lp.get_tag_names(), dat)
@@ -921,6 +930,7 @@ class NEFTranslator(object):
                     for t in lp_cols:
                         lp.add_tag(t)
                     # print (loop.category,lp.category,lp.get_tag_names(),loop.get_tag_names())
+                    cs_id=1
                     for dat in loop.data:
                         if loop.category == "_nef_sequence":
                             dd = self.translate_seq_row(loop.get_tag_names(), lp.get_tag_names(), dat)
@@ -937,6 +947,8 @@ class NEFTranslator(object):
                             dd = self.translate_cs_row(loop.get_tag_names(), lp.get_tag_names(), dat)
                             for d in dd:
                                 d[lp.get_tag_names().index('_Atom_chem_shift.Assigned_chem_shift_list_ID')] = cs_list
+                                d[lp.get_tag_names().index('_Atom_chem_shift.ID')] = cs_id
+                                cs_id+=1
                                 lp.add_data(d)
                         elif loop.category == '_nef_distance_restraint':
                             dd = self.translate_restraint_row(loop.get_tag_names(), lp.get_tag_names(), dat)
