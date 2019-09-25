@@ -29,7 +29,7 @@ class Validate_NMR_Restraints:
 
 
     def run_validation(self,cif_file,star_file):
-        nt = NEFTranslator.NEFTranslator()
+        #nt = NEFTranslator.NEFTranslator()
         pdb, atom_ids = self.get_coordinates(cif_file)
         max_models = len(pdb.keys())
         distance, angle, chain_dict = self.get_restraints(star_file)
