@@ -48,8 +48,8 @@ class Validate_NMR_Restraints:
         type_stat_ang = self.restraints_type_statistics(ang_viol_stat, max_models)
         json_data = self.generate_json(type_stat_dist, type_stat_ang, sorted_dist_viol_stat, sorted_dist_viol,
                                        sorted_ang_viol_stat, sorted_ang_viol)
-        #with open('data_json.json', 'w') as write_file:
-           # json.dump(json_data, write_file)
+        with open('data_json.json', 'w') as write_file:
+            json.dump(json_data, write_file)
         return json_data
 
     @staticmethod
@@ -713,6 +713,6 @@ class Validate_NMR_Restraints:
 
 
 if __name__ == "__main__":
-    # p = ValidateRestraints('vtf_examples/CtR107.cif', 'vtf_examples/CtR107.nef')
-    p = Validate_NMR_Restraints()
-    p.run_validation('vtf_examples/CtR107.cif', 'vtf_examples/CtR107.str')
+    #cif  = sys.argv[1]
+    #star = sys.argv[2]
+    p = Validate_NMR_Restraints('nef_examples/2lci.cif', 'nef_examples/2lci.str')
